@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <dirent.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdlib.h>
+#include "ft_ls.h"
 
 //int main (int c, char *v[]) {
 //    int len;
