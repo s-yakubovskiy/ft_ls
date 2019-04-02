@@ -26,11 +26,11 @@
 ** 		MACROS
 */
 
-# define l_FLAG ((arg_ls->flag >> 0) & 1)
-# define R_FLAG ((arg_ls->flag >> 1) & 1)
-# define a_FLAG ((arg_ls->flag >> 2) & 1)
-# define r_FLAG ((arg_ls->flag >> 3) & 1)
-# define t_FLAG ((arg_ls->flag >> 4) & 1)
+# define l_FLAG ((ls->flag >> 0) & 1)
+# define R_FLAG ((ls->flag >> 1) & 1)
+# define a_FLAG ((ls->flag >> 2) & 1)
+# define r_FLAG ((ls->flag >> 3) & 1)
+# define t_FLAG ((ls->flag >> 4) & 1)
 
 
 

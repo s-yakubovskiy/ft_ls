@@ -128,8 +128,11 @@ void	print_ls(t_ls *ls, int i)
 		while ((dir = readdir(d)) != NULL)
 		{
 //			printf("%s\n", dir->d_name);
-			f_strcpy(ls->dir[i]->cont[j]->path, dir->d_name);
-			ls->dir[i]->cont[++j] = create_ls_item(0);
+			if ((a_FLAG) == 0 && dir->d_name[0] != '.')
+			{
+				f_strcpy(ls->dir[i]->cont[j]->path, dir->d_name);
+				ls->dir[i]->cont[++j] = create_ls_item(0);
+			}
 		}
 		closedir(d);
 	}
@@ -196,29 +199,42 @@ void	get_contents(t_ls *ls)
 	}
 }
 
-static void body_ls(t_ls	*arg_ls)
+static void body_ls(t_ls	*ls)
 {
 	int i;
+	int j;
 
 	i = 0;
-	if (arg_ls->file[0] != 0)
+	j = 0;
+	if (ls->file[0] != 0)
 	{
-		while (arg_ls->file[i] != 0)
+		while (ls->file[i] != 0)
 		{
-			printf("%s\n", arg_ls->file[i++]->path);
+			printf("%s\n", ls->file[i++]->path);
 		}
 	}
-//	if (arg_ls->dir[0] != 0)
-//	{
-//
-//	}
+	if (ls->dir[0] != 0)
+	{
+		i = 0;
+		while(ls->dir[i])
+		{
+			j = 0;
+			while (ls->dir[i]->cont[j])
+			{
+				printf("%-16s", ls->dir[i]->cont[j]);
+				j++;
+			}
+			i++;
+		}
+
+	}
 }
 
 int		main(int argc, char **argv)
 {
 	int			bit;
 //	int			flag;
-	t_ls	*arg_ls;
+	t_ls	*ls;
 	int			size;
 
 	if (arg_checker(argc, argv) == -1)
@@ -228,9 +244,9 @@ int		main(int argc, char **argv)
 			return (0);
 	}
 	size = 0;
-	arg_ls = create_ls_main();
-	arg_ls->flag = Ft_Get_Bit(argc, argv);
-	get_arguments(argc, argv, arg_ls);
-	get_contents(arg_ls);
-	body_ls(arg_ls);
+	ls = create_ls_main();
+	ls->flag = Ft_Get_Bit(argc, argv);
+	get_arguments(argc, argv, ls);
+	get_contents(ls);
+	body_ls(ls);
 }
