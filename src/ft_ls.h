@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:41:22 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/03/30 15:08:10 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/02 14:07:19 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@
 /*
 ** 		MACROS
 */
+
+# define l_FLAG ((flag >> 0) & 1)
+# define R_FLAG ((flag >> 1) & 1)
+# define a_FLAG ((flag >> 2) & 1)
+# define r_FLAG ((flag >> 3) & 1)
+# define t_FLAG ((flag >> 4) & 1)
+
 
 
 # define ISNUM(x) (x >= '0' && x <= '9')
@@ -47,20 +54,37 @@
 ** 		STRUCTS
 */
 
-typedef struct		s_ls
+typedef struct			s_ls
 {
-	int				flag;
-	char			*path;
-	struct s_ls		*next;
-}					t_ls;
+	int					flag;
+	int 				num_dir;
+	int 				num_file;
+	char				path[256];
+	struct s_ls_item	**dir;
+	struct s_ls_item	**file;
+}						t_ls;
+
+
+
+typedef struct			s_ls_item
+{
+	char				path[256];
+	char				stat[11];
+	struct s_ls_item	*next;
+	struct s_ls_item	**cont;
+}						t_ls_item;
+
 
 
 /*
 ** 		NODE FUNCTIONS
 */
 
-
-
+t_ls		*create_ls_dir(void);
+int			is_dir(char *path);
+void		print_ls_list(t_ls *ls_list);
+t_ls_item	*create_ls_item(int flag);
+t_ls		*create_ls_main(void);
 
 /*
 ** 		VALIDATE_FUNCS
@@ -87,3 +111,7 @@ typedef struct		s_ls
 
 
 #endif
+
+/*
+ * L is >> 0
+ */
