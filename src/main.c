@@ -6,11 +6,13 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/02 17:05:34 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:35:28 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+void sorting_start(t_ls *ls);
 
 static int	arg_checker(int argc, char **argv)
 {
@@ -217,8 +219,7 @@ static void body_ls(t_ls	*arg_ls)
 int		main(int argc, char **argv)
 {
 	int			bit;
-//	int			flag;
-	t_ls	*arg_ls;
+	t_ls		*ls;
 	int			size;
 
 	if (arg_checker(argc, argv) == -1)
@@ -228,9 +229,39 @@ int		main(int argc, char **argv)
 			return (0);
 	}
 	size = 0;
-	arg_ls = create_ls_main();
-	arg_ls->flag = Ft_Get_Bit(argc, argv);
-	get_arguments(argc, argv, arg_ls);
-	get_contents(arg_ls);
-	body_ls(arg_ls);
+	ls = create_ls_main();
+	ls->flag = Ft_Get_Bit(argc, argv);
+	get_arguments(argc, argv, ls);
+	get_contents(ls);
+	body_ls(ls);
+	sorting_start(ls);
+
+//	printf("%s\n", ls->dir[0]->cont[3]->path);
+}
+
+static void print_cont(t_ls *ls)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (ls->dir[i] != NULL)
+	{
+		j = 0;
+		while (ls->dir[i]->cont[j] != NULL)
+		{
+			printf("%s\n", ls->dir[i]->cont[j]->path);
+			j++;
+		}
+		i++;
+	}
+}
+
+void sorting_start(t_ls *ls)
+{
+//	print_cont(ls);
+	printf("%s %s\n", ls->dir[0]->cont[2]->path, ls->dir[0]->cont[3]->path);
+	swap_ls(ls->dir[0]->cont[2], ls->dir[0]->cont[3]);
+	printf("%s %s\n", ls->dir[0]->cont[2]->path, ls->dir[0]->cont[3]->path);
+
 }

@@ -117,4 +117,4 @@ file(GLOB ft_ls_src
         "src/*.c"
         )
 
-add_executable(ft_ls ${printf} ${ft_ls_src} src/tmp.c)
+add_executable(ft_ls ${printf} ${ft_ls_src} )
