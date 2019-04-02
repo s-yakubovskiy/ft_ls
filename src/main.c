@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/02 14:27:37 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:05:34 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,22 +105,6 @@ static int	Ft_Get_Bit(int argc, char **argv)
 	return (flag);
 }
 
-void	print_ls(char *path)
-{
-	DIR				*d;
-	struct dirent	*dir;
-	d = opendir(path);
-	if (d)
-	{
-		while ((dir = readdir(d)) != NULL)
-		{
-			printf("%s\n", dir->d_name);
-		}
-		closedir(d);
-	}
-}
-
-
 static void	f_strcpy(char *dst, const char *src)
 {
 	int		i;
@@ -129,6 +113,28 @@ static void	f_strcpy(char *dst, const char *src)
 	while (src[++i])
 		dst[i] = src[i];
 	dst[i] = '\0';
+}
+
+void	print_ls(t_ls *ls, int i)
+{
+	int j;
+	DIR				*d;
+	struct dirent	*dir;
+	j = 0;
+	ls->dir[i]->cont[0] = create_ls_item(0);
+	d = opendir(ls->dir[i]->path);
+	if (d)
+	{
+		while ((dir = readdir(d)) != NULL)
+		{
+//			printf("%s\n", dir->d_name);
+			f_strcpy(ls->dir[i]->cont[j]->path, dir->d_name);
+			ls->dir[i]->cont[++j] = create_ls_item(0);
+		}
+		closedir(d);
+	}
+	ls->dir[i]->cont[j] = 0;
+	//free_item_ls     надо последний елемент
 }
 
 void 	get_arguments(int argc, char *argv[], t_ls *arg_ls)
@@ -184,38 +190,47 @@ void	get_contents(t_ls *ls)
 	{
 		while (ls->dir[i] != NULL)
 		{
-			print_ls(ls->dir[i]->path);
+			print_ls(ls , i);
 			i++;
 		}
 	}
 }
 
+static void body_ls(t_ls	*arg_ls)
+{
+	int i;
+
+	i = 0;
+	if (arg_ls->file[0] != 0)
+	{
+		while (arg_ls->file[i] != 0)
+		{
+			printf("%s\n", arg_ls->file[i++]->path);
+		}
+	}
+//	if (arg_ls->dir[0] != 0)
+//	{
+//
+//	}
+}
+
 int		main(int argc, char **argv)
 {
 	int			bit;
-	int			flag;
+//	int			flag;
 	t_ls	*arg_ls;
 	int			size;
 
 	if (arg_checker(argc, argv) == -1)
-		{
+	{
 			ft_putendl("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] "
 					   "[file ...]\n");
 			return (0);
 	}
 	size = 0;
-	flag = Ft_Get_Bit(argc, argv);
-
 	arg_ls = create_ls_main();
-	if (l_FLAG)
-	{
-		get_arguments(argc, argv, arg_ls);
-		printf("%s\n", arg_ls->file[0]->path);
-		printf("%s\n", arg_ls->dir[0]->path);
-		get_contents(arg_ls);
-//		if (is_dir(ls_list->path) == 1)
-//			print_ls(ls_list);
-//		else
-//			printf("%s\n", ls_list->path);
-	}
+	arg_ls->flag = Ft_Get_Bit(argc, argv);
+	get_arguments(argc, argv, arg_ls);
+	get_contents(arg_ls);
+	body_ls(arg_ls);
 }
