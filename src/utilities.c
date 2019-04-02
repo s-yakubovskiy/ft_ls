@@ -39,10 +39,23 @@ t_ls	*create_ls_main(void)
 
 int is_dir(char *path)
 {
-	if(path == NULL)
+	if (path == NULL)
 		return (-1);
 	struct stat fileStat;
-	if(stat(path,&fileStat) < 0)
+	if (stat(path,&fileStat) < 0)
 		return (-1);
 	return ((S_ISDIR(fileStat.st_mode)) ? 1 : 0);
+}
+
+void free_ls_item(t_ls_item	*ls)
+{
+	int i;
+
+	i = 0;
+	if (ls->cont != NULL)
+	{
+		while (ls->cont[i])
+			free(ls->cont[i++]);
+	}
+	free(ls->cont);
 }

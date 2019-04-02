@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/yharwyn-/edu/ft_ls/lib/printf/ft_printf.h
+/Users/jcartwri/21/ft_ls/lib/printf/ft_printf.h
 stdio.h
 -
 stdarg.h
@@ -16,13 +16,13 @@ float.h
 limits.h
 -
 libft/libft.h
-/Users/yharwyn-/edu/ft_ls/lib/printf/libft/libft.h
+/Users/jcartwri/21/ft_ls/lib/printf/libft/libft.h
 
-/Users/yharwyn-/edu/ft_ls/lib/printf/libft/get_next_line.h
+/Users/jcartwri/21/ft_ls/lib/printf/libft/get_next_line.h
 libft.h
-/Users/yharwyn-/edu/ft_ls/lib/printf/libft/libft.h
+/Users/jcartwri/21/ft_ls/lib/printf/libft/libft.h
 
-/Users/yharwyn-/edu/ft_ls/lib/printf/libft/libft.h
+/Users/jcartwri/21/ft_ls/lib/printf/libft/libft.h
 unistd.h
 -
 string.h
@@ -30,13 +30,13 @@ string.h
 stdlib.h
 -
 get_next_line.h
-/Users/yharwyn-/edu/ft_ls/lib/printf/libft/get_next_line.h
+/Users/jcartwri/21/ft_ls/lib/printf/libft/get_next_line.h
 
-/Users/yharwyn-/edu/ft_ls/src/ft_ls.h
+/Users/jcartwri/21/ft_ls/src/ft_ls.h
 ../lib/printf/ft_printf.h
-/Users/yharwyn-/edu/ft_ls/lib/printf/ft_printf.h
+/Users/jcartwri/21/ft_ls/lib/printf/ft_printf.h
 ../lib/printf/libft/get_next_line.h
-/Users/yharwyn-/edu/ft_ls/lib/printf/libft/get_next_line.h
+/Users/jcartwri/21/ft_ls/lib/printf/libft/get_next_line.h
 sys/types.h
 -
 sys/stat.h
@@ -50,7 +50,7 @@ grp.h
 errno.h
 -
 
-/Users/yharwyn-/edu/ft_ls/src/main.c
+/Users/jcartwri/21/ft_ls/src/utilities.c
 ft_ls.h
-/Users/yharwyn-/edu/ft_ls/src/ft_ls.h
+/Users/jcartwri/21/ft_ls/src/ft_ls.h
 

@@ -26,11 +26,11 @@
 ** 		MACROS
 */
 
-# define l_FLAG ((flag >> 0) & 1)
-# define R_FLAG ((flag >> 1) & 1)
-# define a_FLAG ((flag >> 2) & 1)
-# define r_FLAG ((flag >> 3) & 1)
-# define t_FLAG ((flag >> 4) & 1)
+# define l_FLAG ((arg_ls->flag >> 0) & 1)
+# define R_FLAG ((arg_ls->flag >> 1) & 1)
+# define a_FLAG ((arg_ls->flag >> 2) & 1)
+# define r_FLAG ((arg_ls->flag >> 3) & 1)
+# define t_FLAG ((arg_ls->flag >> 4) & 1)
 
 
 
@@ -85,6 +85,7 @@ int			is_dir(char *path);
 void		print_ls_list(t_ls *ls_list);
 t_ls_item	*create_ls_item(int flag);
 t_ls		*create_ls_main(void);
+void		free_ls_item(t_ls_item	*ls);
 
 /*
 ** 		VALIDATE_FUNCS

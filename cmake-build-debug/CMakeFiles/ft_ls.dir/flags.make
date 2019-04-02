@@ -6,5 +6,5 @@ C_FLAGS = -g   -std=gnu11
 
 C_DEFINES = 
 
-C_INCLUDES = -I/Users/yharwyn-/edu/ft_ls/lib/printf -I/Users/yharwyn-/edu/ft_ls/lib/printf/libft -I/Users/yharwyn-/edu/ft_ls/src 
+C_INCLUDES = -I/Users/jcartwri/21/ft_ls/lib/printf -I/Users/jcartwri/21/ft_ls/lib/printf/libft -I/Users/jcartwri/21/ft_ls/src 
 
