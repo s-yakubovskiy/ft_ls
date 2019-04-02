@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:41:22 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/02 14:07:19 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:27:36 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void		print_ls_list(t_ls *ls_list);
 t_ls_item	*create_ls_item(int flag);
 t_ls		*create_ls_main(void);
 void		free_ls_item(t_ls_item	*ls);
+void		sorting_start(t_ls *ls);
+void		swap_ls(t_ls_item *a, t_ls_item *b);
 
 /*
 ** 		VALIDATE_FUNCS

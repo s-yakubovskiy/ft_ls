@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:43:41 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/02 14:07:29 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:05:47 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,13 @@ void free_ls_item(t_ls_item	*ls)
 			free(ls->cont[i++]);
 	}
 	free(ls->cont);
+}
+
+void	swap_ls(t_ls_item *a, t_ls_item *b)
+{
+	t_ls_item c;
+
+	c = *a;
+	*a = *b;
+	*b = c;
 }

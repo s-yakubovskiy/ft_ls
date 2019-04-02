@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/02 14:27:37 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:05:34 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ void	print_ls(t_ls *ls, int i)
 	{
 		while ((dir = readdir(d)) != NULL)
 		{
-//			printf("%s\n", dir->d_name);
 			if ((a_FLAG) == 0 && dir->d_name[0] != '.')
 			{
 				f_strcpy(ls->dir[i]->cont[j]->path, dir->d_name);
@@ -138,6 +137,29 @@ void	print_ls(t_ls *ls, int i)
 	}
 	ls->dir[i]->cont[j] = 0;
 	//free_item_ls     надо последний елемент
+}
+
+static int ft_check_open_dir(char *tmp)
+{
+//	DIR				*d;
+//	struct dirent	*dir;
+
+	if (opendir(tmp) == NULL)
+	{
+		printf("%s: %s: No such file or directory\n", tmp, tmp);
+		return (-1);
+	}
+	return (1);
+}
+
+static int ft_check_open_file(char *tmp)
+{
+	if (fopen(tmp, "r") == NULL)
+	{
+		printf("%s: %s: No such file or directory\n", tmp, tmp);
+		return (-1);
+	}
+	return (1);
 }
 
 void 	get_arguments(int argc, char *argv[], t_ls *arg_ls)
@@ -170,13 +192,19 @@ void 	get_arguments(int argc, char *argv[], t_ls *arg_ls)
 			tmp[k] = '\0';
 			if (is_dir(tmp) == 1)
 			{
-				f_strcpy(arg_ls->dir[arg_ls->num_dir]->path, tmp);
-				arg_ls->dir[++(arg_ls->num_dir)] = create_ls_item(1);
+				if (ft_check_open_dir(tmp) == 1)
+				{
+					f_strcpy(arg_ls->dir[arg_ls->num_dir]->path, tmp);
+					arg_ls->dir[++(arg_ls->num_dir)] = create_ls_item(1);
+				}
 			}
 			else
 			{
-				f_strcpy(arg_ls->file[arg_ls->num_file]->path, tmp);
-				arg_ls->file[++(arg_ls->num_file)] = create_ls_item(0);
+				if (ft_check_open_file(tmp) == 1)
+				{
+					f_strcpy(arg_ls->file[arg_ls->num_file]->path, tmp);
+					arg_ls->file[++(arg_ls->num_file)] = create_ls_item(0);
+				}
 			}
 			ft_bzero(tmp, (size_t)k);
 			i++;
@@ -205,7 +233,6 @@ static void body_ls(t_ls	*ls)
 	int j;
 
 	i = 0;
-	j = 0;
 	if (ls->file[0] != 0)
 	{
 		while (ls->file[i] != 0)
