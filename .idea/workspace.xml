@@ -12,11 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52979789-5788-437b-b5d3-4accda420195" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/tmp.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/printf/libft/libft.a" beforeDir="false" afterPath="$PROJECT_DIR$/lib/printf/libft/libft.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ft_ls.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/ft_ls.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -164,12 +160,12 @@
       <workItem from="1554026000440" duration="17000" />
       <workItem from="1554026141363" duration="11459000" />
       <workItem from="1554098153181" duration="10120000" />
-      <workItem from="1554184663375" duration="12433000" />
+      <workItem from="1554184663375" duration="13135000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34029000" />
+    <option name="totallyTimeSpent" value="34731000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="2560" height="1414" extended-state="0" />
