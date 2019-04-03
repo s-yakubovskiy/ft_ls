@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:41:22 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/03 09:38:58 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/03 10:42:29 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct			s_ls_item
 {
 	char				name[256];
 	char				path[2048];
-	char				stat[11];
+	char				perms[12];
 	struct s_ls_item	*next;
 	struct s_ls_item	**cont;
 }						t_ls_item;
@@ -89,6 +89,8 @@ t_ls		*create_ls_main(void);
 void		free_ls_item(t_ls_item	*ls);
 void		sorting_start(t_ls *ls);
 void		swap_ls(t_ls_item *a, t_ls_item *b);
+int 		permission_filler(t_ls *ls);
+void		print_all_cont(t_ls *ls);
 
 /*
 ** 		VALIDATE_FUNCS

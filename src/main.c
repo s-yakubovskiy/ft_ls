@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/03 09:40:35 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/03 14:47:57 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,30 @@ static void	f_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
+static void	path_cpy(char *dst, const char *src, t_ls *ls)
+{
+	int		i;
+	int 	j;
+
+	i = -1;
+	j = 0;
+	while (dst[j] != '\0')
+		j++;
+	while (src[++i])
+		dst[j++] = src[i];
+	dst[j] = '\0';
+	if (is_dir(dst))
+	{
+		dst[j] = '/';
+		dst[j + 1] = '\0';
+	}
+//
+//	dst[j] = '/';
+//	dst[j + 1] = '\0';
+}
+
+//static void	full_pathname(char *dst, char)
+
 void	print_ls(t_ls *ls, int i)
 {
 	int j;
@@ -122,14 +146,16 @@ void	print_ls(t_ls *ls, int i)
 	struct dirent	*dir;
 	j = 0;
 	ls->dir[i]->cont[0] = create_ls_item(0);
-	d = opendir(ls->dir[i]->path);
+	d = opendir(ls->dir[i]->name);
 	if (d)
 	{
 		while ((dir = readdir(d)) != NULL)
 		{
 			if ((a_FLAG) == 0 && dir->d_name[0] != '.')
 			{
-				f_strcpy(ls->dir[i]->cont[j]->path, dir->d_name);
+				f_strcpy(ls->dir[i]->cont[j]->name, dir->d_name);
+				f_strcpy(ls->dir[i]->cont[j]->path, ls->dir[i]->path);
+				path_cpy(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->name, ls);
 				ls->dir[i]->cont[++j] = create_ls_item(0);
 			}
 		}
@@ -162,7 +188,7 @@ static int ft_check_open_file(char *tmp)
 	return (1);
 }
 
-void 	get_arguments(int argc, char *argv[], t_ls *arg_ls)
+void 	get_arguments(int argc, char *argv[], t_ls *ls)
 {
 	int i;
 	int j;
@@ -171,8 +197,8 @@ void 	get_arguments(int argc, char *argv[], t_ls *arg_ls)
 
 	i = 1;
 	tmp = malloc(sizeof(char) * 256);
-	arg_ls->dir[arg_ls->num_dir] = create_ls_item(1);
-	arg_ls->file[arg_ls->num_file] = create_ls_item(0);
+	ls->dir[ls->num_dir] = create_ls_item(1);
+	ls->file[ls->num_file] = create_ls_item(0);
 	while (i < argc)
 	{
 		if (argv[i][0] == '-')
@@ -194,16 +220,18 @@ void 	get_arguments(int argc, char *argv[], t_ls *arg_ls)
 			{
 				if (ft_check_open_dir(tmp) == 1)
 				{
-					f_strcpy(arg_ls->dir[arg_ls->num_dir]->path, tmp);
-					arg_ls->dir[++(arg_ls->num_dir)] = create_ls_item(1);
+					f_strcpy(ls->dir[ls->num_dir]->name, tmp);
+					path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
+					ls->dir[++(ls->num_dir)] = create_ls_item(1);
 				}
 			}
 			else
 			{
 				if (ft_check_open_file(tmp) == 1)
 				{
-					f_strcpy(arg_ls->file[arg_ls->num_file]->path, tmp);
-					arg_ls->file[++(arg_ls->num_file)] = create_ls_item(0);
+					f_strcpy(ls->file[ls->num_file]->name, tmp);
+					path_cpy(ls->file[ls->num_file]->path, tmp, ls);
+					ls->file[++(ls->num_file)] = create_ls_item(0);
 				}
 			}
 			ft_bzero(tmp, (size_t)k);
@@ -227,7 +255,7 @@ void	get_contents(t_ls *ls)
 	}
 }
 
-static void body_ls(t_ls	*ls)
+static void body_ls(t_ls *ls)
 {
 	int i;
 	int j;
@@ -237,7 +265,7 @@ static void body_ls(t_ls	*ls)
 	{
 		while (ls->file[i] != 0)
 		{
-			printf("%s\n", ls->file[i++]->path);
+			printf("%s\n", ls->file[i++]->name);
 		}
 	}
 	if (ls->dir[0] != 0)
@@ -248,7 +276,7 @@ static void body_ls(t_ls	*ls)
 			j = 0;
 			while (ls->dir[i]->cont[j])
 			{
-				printf("%-16s", ls->dir[i]->cont[j]);
+				printf("%-16s", ls->dir[i]->cont[j]->name);
 				j++;
 			}
 			i++;
@@ -257,12 +285,65 @@ static void body_ls(t_ls	*ls)
 	}
 }
 
+static	int perm_getter(char *path, char *perms)
+{
+	struct stat fileStat;
+
+
+	if (stat(path, &fileStat) < 0)
+		return (1);
+
+	perms[0] = (char)((S_ISDIR(fileStat.st_mode)) ? 'd' : '-');
+	perms[1] = (char)((fileStat.st_mode & S_IRUSR) ? 'r' : '-');
+	perms[2] = (char)((fileStat.st_mode & S_IWUSR) ? 'w' : '-');
+	perms[3] = (char)((fileStat.st_mode & S_IXUSR) ? 'x' : '-');
+	perms[4] = (char)((fileStat.st_mode & S_IRGRP) ? 'r' : '-');
+	perms[5] = (char)((fileStat.st_mode & S_IWGRP) ? 'w' : '-');
+	perms[6] = (char)((fileStat.st_mode & S_IXGRP) ? 'x' : '-');
+	perms[7] = (char)((fileStat.st_mode & S_IROTH) ? 'r' : '-');
+	perms[8] = (char)((fileStat.st_mode & S_IWOTH) ? 'w' : '-');
+	perms[9] = (char)((fileStat.st_mode & S_IXOTH) ? 'x' : '-');
+	perms[10] = '\0';
+
+	return (0);
+}
+
+//static	void	make_full_path(t_ls *ls)
+//{
+//	char *tmp;
+//
+//}
+
+static void	perm_maker(t_ls *ls)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while(ls->dir[i] != NULL)
+	{
+		perm_getter(ls->dir[i]->path, ls->dir[i]->perms);
+		j = 0;
+		while (ls->dir[i]->cont[j] != NULL)
+		{
+			perm_getter(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->perms);
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while(ls->file[i] != NULL)
+	{
+		perm_getter(ls->file[i]->path, ls->file[i]->perms);
+		i++;
+	}
+
+}
+
 int		main(int argc, char **argv)
 {
 	int			bit;
-//	int			flag;
-	t_ls	*ls;
-	int			size;
+	t_ls		*ls;
 
 	if (arg_checker(argc, argv) == -1)
 	{
@@ -270,10 +351,35 @@ int		main(int argc, char **argv)
 					   "[file ...]\n");
 			return (0);
 	}
-	size = 0;
 	ls = create_ls_main();
 	ls->flag = Ft_Get_Bit(argc, argv);
 	get_arguments(argc, argv, ls);
 	get_contents(ls);
-	body_ls(ls);
+//	body_ls(ls);
+//	permission_filler(ls);
+	if (l_FLAG)
+	{
+		perm_maker(ls);
+		printf("Hello\n");
+//		perm_getter("pg/file1");
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+void sorting_start(t_ls *ls)
+{
+//	print_cont(ls);
+	printf("%s %s\n", ls->dir[0]->cont[2]->name, ls->dir[0]->cont[3]->name);
+	swap_ls(ls->dir[0]->cont[2], ls->dir[0]->cont[3]);
+	printf("%s %s\n", ls->dir[0]->cont[2]->name, ls->dir[0]->cont[3]->name);
+
 }
