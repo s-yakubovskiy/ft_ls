@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:41:22 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/03 10:42:29 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:46:41 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 
 # include "../lib/printf/ft_printf.h"
 # include "../lib/printf/libft/get_next_line.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <dirent.h>
 # include <pwd.h>
 # include <grp.h>
 # include <errno.h>
+# include <sys/xattr.h> //@+
+# include <sys/acl.h> //@+
+# include <time.h>
 
 /*
 ** 		MACROS
@@ -31,6 +34,7 @@
 # define a_FLAG ((ls->flag >> 2) & 1)
 # define r_FLAG ((ls->flag >> 3) & 1)
 # define t_FLAG ((ls->flag >> 4) & 1)
+#define MAXC 64
 
 
 
@@ -64,13 +68,14 @@ typedef struct			s_ls
 	struct s_ls_item	**file;
 }						t_ls;
 
-
-
 typedef struct			s_ls_item
 {
 	char				name[256];
 	char				path[2048];
 	char				perms[12];
+	int 				file_size;
+	int 				links;
+	char 				time[20];
 	struct s_ls_item	*next;
 	struct s_ls_item	**cont;
 }						t_ls_item;
@@ -91,6 +96,7 @@ void		sorting_start(t_ls *ls);
 void		swap_ls(t_ls_item *a, t_ls_item *b);
 int 		permission_filler(t_ls *ls);
 void		print_all_cont(t_ls *ls);
+int			time_getter(t_ls_item *ls);
 
 /*
 ** 		VALIDATE_FUNCS
@@ -101,8 +107,8 @@ void		print_all_cont(t_ls *ls);
 /*
 ** 		ALGORITHM_FUNCS
 */
-
-
+char	extended_param(char *filename);
+void	f_strcpy(char *dst, const char *src);
 
 /*
 ** 		AUX FUNCS

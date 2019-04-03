@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:43:41 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/03 12:00:22 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:23:25 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int 	permission_filler(t_ls *ls)
 	char *full_name;
 
 	name = ls->dir[0]->cont[3]->name;
+//	full_name = ls->dir[0]->path;
 	full_name = ft_strjoin(ls->dir[0]->path, name);
 //	printf("\n'%s'\n", name);
 //	printf("\n'%s'\n", full_name);
@@ -122,4 +123,65 @@ void print_all_cont(t_ls *ls)
 		}
 		i++;
 	}
+}
+
+char	extended_param(char *filename)
+{
+	acl_t acl = NULL;
+	acl_entry_t dummy;
+	ssize_t xattr = 0;
+	char chr;
+
+	acl = acl_get_link_np(filename, ACL_TYPE_EXTENDED);
+	if (acl && acl_get_entry(acl, ACL_FIRST_ENTRY, &dummy) == -1)
+	{
+		acl_free(acl);
+		acl = NULL;
+	}
+	xattr = listxattr(filename, NULL, 0, XATTR_NOFOLLOW);
+	if (xattr < 0)
+		xattr = 0;
+
+	if (xattr > 0)
+		chr = '@';
+	else if (acl != NULL)
+		chr = '+';
+	else
+		chr = ' ';
+	return (chr);
+}
+
+int		time_getter(t_ls_item *ls)
+{
+	char time_str[MAXC] = "";
+	time_t now = time (NULL);
+	struct stat sb;
+	struct tm tmfile, tmnow;
+
+	if (stat(ls->path, &sb) == -1)
+	{  /* validate stat of file */
+		perror("stat");
+		return 1;
+	}
+
+	localtime_r (&sb.st_mtime, &tmfile);    /* get struct tm for file */
+	localtime_r (&now, &tmnow);             /* and now */
+
+	if (tmfile.tm_year == tmnow.tm_year)
+	{    /* compare year values  */
+		strftime (time_str, sizeof (time_str), "%b %e %H:%M",
+				  &tmfile);   /* if year is current output date/time  */
+		f_strcpy(ls->time, time_str);
+		/*printf ("permission 1 user group 12345 %s %s\n",
+				time_str, ls->path);*/
+	}
+	else
+	{ /* if year is not current, output time/year */
+		strftime (time_str, sizeof (time_str), "%b %e  %Y",
+				  &tmfile);
+		f_strcpy(ls->time, time_str);
+		/*printf ("permission 1 user group 12345 %s %s\n",
+				time_str, ls->path);*/
+	}
+	return (0);
 }

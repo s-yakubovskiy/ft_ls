@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/03 14:47:57 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/03 18:45:32 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static int	Ft_Get_Bit(int argc, char **argv)
 	return (flag);
 }
 
-static void	f_strcpy(char *dst, const char *src)
+void	f_strcpy(char *dst, const char *src)
 {
 	int		i;
 
@@ -302,31 +302,40 @@ static	int perm_getter(char *path, char *perms)
 	perms[6] = (char)((fileStat.st_mode & S_IXGRP) ? 'x' : '-');
 	perms[7] = (char)((fileStat.st_mode & S_IROTH) ? 'r' : '-');
 	perms[8] = (char)((fileStat.st_mode & S_IWOTH) ? 'w' : '-');
-	perms[9] = (char)((fileStat.st_mode & S_IXOTH) ? 'x' : '-');
-	perms[10] = '\0';
-
+	perms[9] = (char)((fileStat.st_mode & S_ISVTX) ? 't' : '-');
+	if (perms[9] == '-')
+		perms[9] = (char)((fileStat.st_mode & S_IXOTH) ? 'x' : '-');
+	perms[10] = extended_param(path);
+	if (perms[10] != '@' && perms[10] != '+')
+		perms[10] = '\0';
+	perms[11] = '\0';
 	return (0);
 }
 
-//static	void	make_full_path(t_ls *ls)
-//{
-//	char *tmp;
-//
-//}
-
-static void	perm_maker(t_ls *ls)
+static int	perm_maker(t_ls *ls)
 {
 	int i;
 	int j;
+	struct stat fileStat;
+
 
 	i = 0;
-	while(ls->dir[i] != NULL)
+	while(ls->dir[i + 1] != NULL)
 	{
+		if (stat(ls->dir[i]->path, &fileStat) < 0)
+			return (1);
 		perm_getter(ls->dir[i]->path, ls->dir[i]->perms);
+		ls->dir[i]->links = fileStat.st_nlink;
+		ls->dir[i]->file_size = fileStat.st_size;
 		j = 0;
 		while (ls->dir[i]->cont[j] != NULL)
 		{
+			if (stat(ls->dir[i]->cont[j]->path, &fileStat) < 0)
+				return (1);
 			perm_getter(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->perms);
+			ls->dir[i]->cont[j]->links = fileStat.st_nlink;
+			ls->dir[i]->cont[j]->file_size = fileStat.st_size;
+			time_getter(ls->dir[i]->cont[j]);
 			j++;
 		}
 		i++;
@@ -334,10 +343,15 @@ static void	perm_maker(t_ls *ls)
 	i = 0;
 	while(ls->file[i] != NULL)
 	{
+		if (stat(ls->file[i]->path, &fileStat) < 0)
+			return (1);
 		perm_getter(ls->file[i]->path, ls->file[i]->perms);
+		ls->file[i]->links = fileStat.st_nlink;
+		ls->file[i]->file_size = fileStat.st_size;
+		time_getter(ls->file[i]);
 		i++;
 	}
-
+	return (0);
 }
 
 int		main(int argc, char **argv)
@@ -360,7 +374,11 @@ int		main(int argc, char **argv)
 	if (l_FLAG)
 	{
 		perm_maker(ls);
+//		permission_filler(ls);
+		char str[15];
 		printf("Hello\n");
+//		perm_getter("/installer.failurerequests", str);
+//		extended_param(ls);
 //		perm_getter("pg/file1");
 	}
 
