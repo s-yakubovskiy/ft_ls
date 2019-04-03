@@ -68,7 +68,8 @@ typedef struct			s_ls
 
 typedef struct			s_ls_item
 {
-	char				path[256];
+	char				name[256];
+	char				path[2048];
 	char				stat[11];
 	struct s_ls_item	*next;
 	struct s_ls_item	**cont;
