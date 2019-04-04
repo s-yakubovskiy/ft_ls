@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/04 15:42:54 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:25:45 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static char	*Ft_Get_Str_Options(int argc, char **argv)
 {
 	int		i;
 	int		j;
+	int 	a;
 	char	*str;
 
 	i = 1;
@@ -63,12 +64,13 @@ static char	*Ft_Get_Str_Options(int argc, char **argv)
 	while (i < argc && argv[i][0] == '-')
 	{
 		j = 1;
+		a = 0;
 		while (argv[i][j])
 		{
 			if (Check_On_Consist(str, argv[i][j]) == -1)
 			{
-				str[i - 1] = argv[i][j];
-				str[i] = '\0';
+				str[a++] = argv[i][j];
+				str[a] = '\0';
 			}
 			j++;
 		}
