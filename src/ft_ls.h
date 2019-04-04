@@ -75,8 +75,9 @@ typedef struct			s_ls_item
 	char				perms[16];
 	char 				uid[64];
 	char 				guid[64];
-	int 				file_size;
+	int					file_size;
 	int 				links;
+	long long int		st_blocks;
 	char 				time[16];
 	struct s_ls_item	*next;
 	struct s_ls_item	**cont;
@@ -109,9 +110,10 @@ int			time_getter(t_ls_item *ls);
 /*
 ** 		ALGORITHM_FUNCS
 */
-char	extended_param(char *filename);
-void	f_strcpy(char *dst, const char *src);
-int 	uid_guid_getter(t_ls_item *ls);
+char			extended_param(char *filename);
+void			f_strcpy(char *dst, const char *src);
+int 			uid_guid_getter(t_ls_item *ls);
+long long int	total(t_ls_item *ls);
 /*
 ** 		AUX FUNCS
 */

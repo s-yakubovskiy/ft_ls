@@ -322,6 +322,7 @@ static int	perm_maker(t_ls *ls)
 	i = 0;
 	while(ls->dir[i + 1] != NULL)
 	{
+		ls->dir[i]->st_blocks = 0;
 		if (stat(ls->dir[i]->path, &fileStat) < 0)
 			return (1);
 		perm_getter(ls->dir[i]->path, ls->dir[i]->perms);
@@ -337,6 +338,8 @@ static int	perm_maker(t_ls *ls)
 			ls->dir[i]->cont[j]->file_size = fileStat.st_size;
 			time_getter(ls->dir[i]->cont[j]);
 			uid_guid_getter(ls->dir[i]->cont[j]);
+			if (is_dir(ls->dir[i]->cont[j]->path) == 0)
+				ls->dir[i]->st_blocks += total(ls->dir[i]->cont[j]);
 			j++;
 		}
 		i++;
@@ -344,6 +347,7 @@ static int	perm_maker(t_ls *ls)
 	i = 0;
 	while(ls->file[i] != NULL)
 	{
+		ls->file[i]->st_blocks = 0;
 		if (stat(ls->file[i]->path, &fileStat) < 0)
 			return (1);
 		perm_getter(ls->file[i]->path, ls->file[i]->perms);
@@ -351,6 +355,7 @@ static int	perm_maker(t_ls *ls)
 		ls->file[i]->file_size = fileStat.st_size;
 		time_getter(ls->file[i]);
 		uid_guid_getter(ls->file[i]);
+		ls->file[i]->st_blocks = total(ls->file[i]);
 		i++;
 	}
 	return (0);
@@ -358,6 +363,7 @@ static int	perm_maker(t_ls *ls)
 
 int		main(int argc, char **argv)
 {
+	int			bit;
 	t_ls		*ls;
 
 	if (arg_checker(argc, argv) == -1)
