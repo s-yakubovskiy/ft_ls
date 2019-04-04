@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:41:22 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/04 08:30:16 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/04 12:44:56 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@
 # define a_FLAG ((ls->flag >> 2) & 1)
 # define r_FLAG ((ls->flag >> 3) & 1)
 # define t_FLAG ((ls->flag >> 4) & 1)
-#define MAXC 64
+# define one_FLAG ((ls->flag >> 5) & 1)
+# define MAXC 64
 
 
 
@@ -100,10 +101,19 @@ void		swap_ls(t_ls_item *a, t_ls_item *b);
 int 		permission_filler(char *path);
 void		print_all_cont(t_ls *ls);
 int			time_getter(t_ls_item *ls);
+int			perm_maker(t_ls *ls);
 
 /*
 ** 		VALIDATE_FUNCS
 */
+
+
+
+/*
+** 		OUTPUT_FUNCS
+*/
+
+void	print_ls_one_flag(t_ls *ls);
 
 
 
@@ -117,6 +127,10 @@ long long int	total(t_ls_item *ls);
 /*
 ** 		AUX FUNCS
 */
+
+
+
+
 
 
 

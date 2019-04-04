@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/04 08:31:13 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/04 15:42:54 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	arg_checker(int argc, char **argv)
 		while (argv[i][j])
 		{
 			if (argv[i][j] != 'l' && argv[i][j] != 'R' && argv[i][j] != 'a'
-				  && argv[i][j] != 'r' && argv[i][j] != 't')
+				  && argv[i][j] != 'r' && argv[i][j] != 't' && argv[i][j] != '1')
 			{
 				ft_putstr("ls: illegal option -- ");
 				ft_putchar(argv[i][j]);
@@ -92,6 +92,8 @@ static int	Ft_Get_Bit(int argc, char **argv)
 
 	flag = 0;
 	str = Ft_Get_Str_Options(argc, argv);
+	if (Check_On_Consist(str, '1') == 1)
+		flag = Ft_Bitwise_Shift(flag, 5);
 	if (Check_On_Consist(str, 't') == 1)
 		flag = Ft_Bitwise_Shift(flag, 4);
 	if (Check_On_Consist(str, 'r') == 1)
@@ -152,6 +154,13 @@ void	print_ls(t_ls *ls, int i)
 		while ((dir = readdir(d)) != NULL)
 		{
 			if ((a_FLAG) == 0 && dir->d_name[0] != '.')
+			{
+				f_strcpy(ls->dir[i]->cont[j]->name, dir->d_name);
+				f_strcpy(ls->dir[i]->cont[j]->path, ls->dir[i]->path);
+				path_cpy(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->name, ls);
+				ls->dir[i]->cont[++j] = create_ls_item(0);
+			}
+			else if (a_FLAG)
 			{
 				f_strcpy(ls->dir[i]->cont[j]->name, dir->d_name);
 				f_strcpy(ls->dir[i]->cont[j]->path, ls->dir[i]->path);
@@ -312,7 +321,7 @@ static	int perm_getter(char *path, char *perms)
 	return (0);
 }
 
-static int	perm_maker(t_ls *ls)
+int	perm_maker(t_ls *ls)
 {
 	int i;
 	int j;
@@ -363,7 +372,6 @@ static int	perm_maker(t_ls *ls)
 
 int		main(int argc, char **argv)
 {
-	int			bit;
 	t_ls		*ls;
 
 	if (arg_checker(argc, argv) == -1)
@@ -382,20 +390,18 @@ int		main(int argc, char **argv)
 	{
 		perm_maker(ls);
 //		permission_filler(ls);
-		permission_filler("pg/");
-		printf("Hello\n");
+//		permission_filler("pg/");
+//		printf("Hello\n");
 //		perm_getter("/installer.failurerequests", str);
 //		extended_param(ls);
 //		perm_getter("pg/file1");
 	}
-
+	else if (one_FLAG)
+	{
+//		printf("one flag...\n");
+		print_ls_one_flag(ls);
+	}
 }
-
-
-
-
-
-
 
 
 
