@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:43:41 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/03 18:23:25 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/04 08:30:16 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ void	swap_ls(t_ls_item *a, t_ls_item *b)
 	*b = c;
 }
 
-int 	permission_filler(t_ls *ls)
+int 	permission_filler(char *full_name)
 {
 	struct stat fileStat;
-	char *name;
-	char *full_name;
-
-	name = ls->dir[0]->cont[3]->name;
-//	full_name = ls->dir[0]->path;
-	full_name = ft_strjoin(ls->dir[0]->path, name);
+//	char *name;
+//	char *full_name;
+//
+//	name = ls->dir[0]->cont[3]->name;
+////	full_name = ls->dir[0]->path;
+//	full_name = ft_strjoin(ls->dir[0]->path, name);
 //	printf("\n'%s'\n", name);
 //	printf("\n'%s'\n", full_name);
 	if (stat(full_name, &fileStat) < 0)
@@ -184,4 +184,21 @@ int		time_getter(t_ls_item *ls)
 				time_str, ls->path);*/
 	}
 	return (0);
+}
+
+int uid_guid_getter(t_ls_item *ls)
+{
+	struct stat sb;
+
+	if (stat(ls->path, &sb) == -1)
+	{  /* validate stat of file */
+		perror("stat");
+		return 1;
+	}
+	struct passwd *pw = getpwuid(sb.st_uid);
+	struct group  *gr = getgrgid(sb.st_gid);
+	f_strcpy(ls->uid, pw->pw_name);
+	f_strcpy(ls->guid, gr->gr_name);
+	return (0);
+	/* https://stackoverflow.com/questions/36069748/c-get-owner-and-group-of-file-directory */
 }

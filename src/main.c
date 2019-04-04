@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/03 18:45:32 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/04 08:31:13 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,6 +336,7 @@ static int	perm_maker(t_ls *ls)
 			ls->dir[i]->cont[j]->links = fileStat.st_nlink;
 			ls->dir[i]->cont[j]->file_size = fileStat.st_size;
 			time_getter(ls->dir[i]->cont[j]);
+			uid_guid_getter(ls->dir[i]->cont[j]);
 			j++;
 		}
 		i++;
@@ -349,6 +350,7 @@ static int	perm_maker(t_ls *ls)
 		ls->file[i]->links = fileStat.st_nlink;
 		ls->file[i]->file_size = fileStat.st_size;
 		time_getter(ls->file[i]);
+		uid_guid_getter(ls->file[i]);
 		i++;
 	}
 	return (0);
@@ -356,7 +358,6 @@ static int	perm_maker(t_ls *ls)
 
 int		main(int argc, char **argv)
 {
-	int			bit;
 	t_ls		*ls;
 
 	if (arg_checker(argc, argv) == -1)
@@ -375,7 +376,7 @@ int		main(int argc, char **argv)
 	{
 		perm_maker(ls);
 //		permission_filler(ls);
-		char str[15];
+		permission_filler("pg/");
 		printf("Hello\n");
 //		perm_getter("/installer.failurerequests", str);
 //		extended_param(ls);
