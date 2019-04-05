@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/27 14:43:41 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/04 12:28:32 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/05 15:20:46 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_ls_item	*create_ls_item(int flag)
 {
 	t_ls_item	*tmp;
 
-	tmp = (t_ls_item*)malloc(sizeof(t_ls_item) + 1);
+	tmp = malloc(sizeof(t_ls_item));
 	tmp->cont = NULL;
-	flag == 1 ? tmp->cont = malloc(sizeof(t_ls_item*) * 1000) : 0;
+	flag == 1 ? tmp->cont = malloc(sizeof(t_ls_item*) * 1024) : 0;
 	tmp->next = NULL;
 	return (tmp);
 }
@@ -27,12 +27,12 @@ t_ls	*create_ls_main(void)
 {
 	t_ls	*tmp;
 
-	tmp = malloc(sizeof(t_ls) * 1000 + 1);
+	tmp = malloc(sizeof(t_ls));
 	tmp->num_dir = 0;
 	tmp->num_file = 0;
 	tmp->flag = 0;
-	tmp->dir = malloc(sizeof(t_ls_item*) * 1000);
-	tmp->file = malloc(sizeof(t_ls_item*) * 1000);
+	tmp->dir = malloc(sizeof(t_ls_item*) * 1024);
+	tmp->file = malloc(sizeof(t_ls_item*) * 1024);
 	return (tmp);
 }
 
@@ -166,11 +166,13 @@ void	f_strcpy_time(t_ls_item *ls, const char *src)
 	j = 0;
 	while (src[i] && src[i] != ' ')
 		ls->day[j++] = src[i++];
+	ls->day[j] = '\0';
 	while (src[i] && src[i] == ' ')
 		i++;
 	j = 0;
 	while (src[i])
 		ls->time[j++] = src[i++];
+	ls->time[j] = '\0';
 }
 
 int		time_getter(t_ls_item *ls)
@@ -230,7 +232,7 @@ long long int total(t_ls_item *ls)
 	struct stat sb;
 	long long int a;
 
-	if (stat(ls->path, &sb) == -1)
+	if (lstat(ls->path, &sb) == -1)
 	{
 		perror("stat");
 		return (1);

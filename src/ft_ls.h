@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 15:41:22 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/04 12:44:56 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/05 15:20:46 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ long long int	total(t_ls_item *ls);
 ** 		SPLITS_CHECK_FUNCS
 */
 
-
+void	display_contents(char * name);
 
 #endif
 

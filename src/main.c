@@ -6,7 +6,7 @@
 /*   By: yharwyn- <yharwyn-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/31 13:00:53 by yharwyn-          #+#    #+#             */
-/*   Updated: 2019/04/04 19:25:45 by yharwyn-         ###   ########.fr       */
+/*   Updated: 2019/04/05 15:20:46 by yharwyn-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,8 @@ void	print_ls(t_ls *ls, int i)
 	DIR				*d;
 	struct dirent	*dir;
 	j = 0;
-	ls->dir[i]->cont[0] = create_ls_item(0);
+
+	//ls->dir[i]->cont[0] = create_ls_item(0);
 	d = opendir(ls->dir[i]->name);
 	if (d)
 	{
@@ -179,17 +180,21 @@ void	print_ls(t_ls *ls, int i)
 		{
 			if ((a_FLAG) == 0 && dir->d_name[0] != '.')
 			{
+				ls->dir[i]->cont[j] = create_ls_item(0);
 				f_strcpy(ls->dir[i]->cont[j]->name, dir->d_name);
 				f_strcpy(ls->dir[i]->cont[j]->path, ls->dir[i]->path);
 				path_cpy(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->name, ls);
-				ls->dir[i]->cont[++j] = create_ls_item(0);
+				//ls->dir[i]->cont[++j] = create_ls_item(0);
+				j++;
 			}
 			else if (a_FLAG)
 			{
+				ls->dir[i]->cont[j] = create_ls_item(0);
 				f_strcpy(ls->dir[i]->cont[j]->name, dir->d_name);
 				f_strcpy(ls->dir[i]->cont[j]->path, ls->dir[i]->path);
 				path_cpy(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->name, ls);
-				ls->dir[i]->cont[++j] = create_ls_item(0);
+				//ls->dir[i]->cont[++j] = create_ls_item(0);
+				j++;
 			}
 		}
 		closedir(d);
@@ -230,8 +235,8 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 
 	i = 1;
 	tmp = malloc(sizeof(char) * 256);
-	ls->dir[ls->num_dir] = create_ls_item(1);
-	ls->file[ls->num_file] = create_ls_item(0);
+//	ls->dir[ls->num_dir] = create_ls_item(1);
+//	ls->file[ls->num_file] = create_ls_item(0);
 	while (i < argc)
 	{
 		if (argv[i][0] == '-')
@@ -253,18 +258,22 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 			{
 				if (ft_check_open_dir(tmp) == 1)
 				{
+					ls->dir[(ls->num_dir)] = create_ls_item(1);
 					f_strcpy(ls->dir[ls->num_dir]->name, tmp);
 					path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
-					ls->dir[++(ls->num_dir)] = create_ls_item(1);
+					//ls->dir[++(ls->num_dir)] = create_ls_item(1);
+					++(ls->num_dir);
 				}
 			}
 			else
 			{
 				if (ft_check_open_file(tmp) == 1)
 				{
+					ls->file[(ls->num_file)] = create_ls_item(0);
 					f_strcpy(ls->file[ls->num_file]->name, tmp);
 					path_cpy(ls->file[ls->num_file]->path, tmp, ls);
-					ls->file[++(ls->num_file)] = create_ls_item(0);
+					//ls->file[++(ls->num_file)] = create_ls_item(0);
+					++(ls->num_file);
 				}
 			}
 			ft_bzero(tmp, (size_t)k);
@@ -356,7 +365,7 @@ int	perm_maker(t_ls *ls)
 	while(ls->dir[i + 1] != NULL)
 	{
 		ls->dir[i]->st_blocks = 0;
-		if (stat(ls->dir[i]->path, &fileStat) < 0)
+		if (lstat(ls->dir[i]->path, &fileStat) < 0)
 			return (1);
 		perm_getter(ls->dir[i]->path, ls->dir[i]->perms);
 		ls->dir[i]->links = fileStat.st_nlink;
@@ -364,7 +373,7 @@ int	perm_maker(t_ls *ls)
 		j = 0;
 		while (ls->dir[i]->cont[j] != NULL)
 		{
-			if (stat(ls->dir[i]->cont[j]->path, &fileStat) < 0)
+			if (lstat(ls->dir[i]->cont[j]->path, &fileStat) < 0)
 				return (1);
 			perm_getter(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->perms);
 			ls->dir[i]->cont[j]->links = fileStat.st_nlink;
@@ -381,7 +390,7 @@ int	perm_maker(t_ls *ls)
 	while(ls->file[i] != NULL)
 	{
 		ls->file[i]->st_blocks = 0;
-		if (stat(ls->file[i]->path, &fileStat) < 0)
+		if (lstat(ls->file[i]->path, &fileStat) < 0)
 			return (1);
 		perm_getter(ls->file[i]->path, ls->file[i]->perms);
 		ls->file[i]->links = fileStat.st_nlink;
@@ -408,23 +417,23 @@ int		main(int argc, char **argv)
 	ls->flag = Ft_Get_Bit(argc, argv);
 	get_arguments(argc, argv, ls);
 	get_contents(ls);
-//	body_ls(ls);
-//	permission_filler(ls);
 	if (l_FLAG)
 	{
 		perm_maker(ls);
-//		permission_filler(ls);
-//		permission_filler("pg/");
-//		printf("Hello\n");
-//		perm_getter("/installer.failurerequests", str);
-//		extended_param(ls);
-//		perm_getter("pg/file1");
 	}
 	else if (one_FLAG)
 	{
-//		printf("one flag...\n");
 		print_ls_one_flag(ls);
 	}
+//	printf("%s\n", ls->dir[0]->cont[0]->name);
+//	printf("%s\n", ls->dir[0]->cont[1]->name);
+//	printf("%s\n", ls->dir[0]->cont[15]->name);
+//	printf("%s\n", ls->dir[0]->cont[16]->name);
+//	printf("%s\n", ls->dir[0]->cont[17]->name);
+//	printf("%s\n", ls->dir[0]->cont[18]->name);
+//	printf("%s\n", ls->dir[0]->cont[19]->name);
+	display_contents("/sbin/umount");
+
 }
 
 
