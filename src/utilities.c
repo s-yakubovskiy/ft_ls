@@ -151,6 +151,28 @@ char	extended_param(char *filename)
 	return (chr);
 }
 
+void	f_strcpy_time(t_ls_item *ls, const char *src)
+{
+	int		i;
+	int 	j;
+
+	i = 0;
+	j = 0;
+	while (src[i] && src[i] != ' ')
+		ls->month[j++] = src[i++];
+	ls->month[j] = '\0';
+	while (src[i] && src[i] == ' ')
+		i++;
+	j = 0;
+	while (src[i] && src[i] != ' ')
+		ls->day[j++] = src[i++];
+	while (src[i] && src[i] == ' ')
+		i++;
+	j = 0;
+	while (src[i])
+		ls->time[j++] = src[i++];
+}
+
 int		time_getter(t_ls_item *ls)
 {
 	char time_str[MAXC] = "";
@@ -171,7 +193,7 @@ int		time_getter(t_ls_item *ls)
 	{    /* compare year values  */
 		strftime (time_str, sizeof (time_str), "%b %e %H:%M",
 				  &tmfile);   /* if year is current output date/time  */
-		f_strcpy(ls->time, time_str);
+		f_strcpy_time(ls, time_str);
 		/*printf ("permission 1 user group 12345 %s %s\n",
 				time_str, ls->path);*/
 	}
@@ -179,7 +201,7 @@ int		time_getter(t_ls_item *ls)
 	{ /* if year is not current, output time/year */
 		strftime (time_str, sizeof (time_str), "%b %e  %Y",
 				  &tmfile);
-		f_strcpy(ls->time, time_str);
+		f_strcpy_time(ls->time, time_str);
 		/*printf ("permission 1 user group 12345 %s %s\n",
 				time_str, ls->path);*/
 	}

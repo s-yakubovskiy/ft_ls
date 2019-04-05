@@ -71,6 +71,9 @@ typedef struct			s_ls
 
 typedef struct			s_ls_item
 {
+	char				time[6];
+	char				day[6];
+	char 				month[6];
 	char				name[256];
 	char				path[2048];
 	char				perms[16];
@@ -79,7 +82,6 @@ typedef struct			s_ls_item
 	int					file_size;
 	int 				links;
 	long long int		st_blocks;
-	char 				time[16];
 	struct s_ls_item	*next;
 	struct s_ls_item	**cont;
 }						t_ls_item;

@@ -51,6 +51,27 @@ static int	Check_On_Consist(char *str, char c)
 	return (-1);
 }
 
+static int ft_get_count_flags(int argc, char **argv)
+{
+	int a;
+	int i;
+	int j;
+
+	i = 1;
+	a = 0;
+	while (i < argc && argv[i][0] == '-')
+	{
+		j = 1;
+		while (argv[i][j])
+		{
+			a++;
+			j++;
+		}
+		i++;
+	}
+	return (a);
+}
+
 static char	*Ft_Get_Str_Options(int argc, char **argv)
 {
 	int		i;
@@ -59,8 +80,9 @@ static char	*Ft_Get_Str_Options(int argc, char **argv)
 	char	*str;
 
 	i = 1;
-	str = (char *)malloc(sizeof(char) * 21);
-	str[21] = '\0';
+	a = ft_get_count_flags(argc, argv);
+	str = (char *)malloc(sizeof(char) * a);
+	str[a] = '\0';
 	while (i < argc && argv[i][0] == '-')
 	{
 		j = 1;
