@@ -403,6 +403,56 @@ int	perm_maker(t_ls *ls)
 	return (0);
 }
 
+static int ft_find_max_len(t_ls_item **ls)
+{
+	int i;
+	int a;
+
+	i = 0;
+	a = 0;
+	while (ls[i])
+	{
+		if (ft_strlen(ls[i]->name) > a)
+			a = ft_strlen(ls[i]->name);
+		i++;
+	}
+	return (a);
+}
+
+static void	ft_print_dir_file(t_ls_item **ls, int a)
+{
+	int i;
+	int j;
+	int m;
+
+	i = 0;
+	while (ls[i])
+	{
+		m = a - (int)ft_strlen(ls[i]->name);
+		printf("%s", ls[i]->name);
+		if (ls[i + 1] != NULL)
+		{
+			j = -1;
+			while (++j < m)
+				printf("%c", ' ');
+		}
+		i++;
+	}
+}
+
+static int ft_print_anti_l(t_ls	*ls)
+{
+	int a;
+	int j;
+
+	j = 0;
+	while (ls->dir[j])
+	{
+		a = (ft_find_max_len(ls->dir[j]->cont) / 8 + 1) * 8;
+		ft_print_dir_file(ls->dir[j]->cont, a);
+		j++;
+	}
+}
 int		main(int argc, char **argv)
 {
 	t_ls		*ls;
@@ -425,6 +475,10 @@ int		main(int argc, char **argv)
 	{
 		print_ls_one_flag(ls);
 	}
+	else
+	{
+		ft_find_max_len(ls->dir);
+	}
 //	printf("%s\n", ls->dir[0]->cont[0]->name);
 //	printf("%s\n", ls->dir[0]->cont[1]->name);
 //	printf("%s\n", ls->dir[0]->cont[15]->name);
@@ -433,7 +487,7 @@ int		main(int argc, char **argv)
 //	printf("%s\n", ls->dir[0]->cont[18]->name);
 //	printf("%s\n", ls->dir[0]->cont[19]->name);
 	display_contents("/sbin/umount");
-
+	ft_print_anti_l(ls);
 }
 
 
