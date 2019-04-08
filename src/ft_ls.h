@@ -126,6 +126,7 @@ void	grab_ls(t_ls *ls, int i);
 void	ft_print_dir_file(t_ls_item **ls, int a, int len);
 int     ft_print_anti_l(t_ls *ls);
 void    body_ls(t_ls *ls);
+void	ft_output_l(t_ls *ls);
 
 
 
@@ -136,6 +137,8 @@ char			extended_param(char *filename);
 int 			uid_guid_getter(t_ls_item *ls);
 long long int	total(t_ls_item *ls);
 void            bubble_sort_ls(t_ls_item *ls);
+void			ft_tsort(t_ls	*ls);
+void			ft_sort_by_ascii(t_ls *ls);
 
 /*
 ** 		AUX FUNCS

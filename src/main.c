@@ -200,9 +200,13 @@ int		main(int argc, char **argv)
 	ls->flag = Ft_Get_Bit(argc, argv);
 	get_arguments(argc, argv, ls);
 	get_contents(ls);
+
+	if (t_FLAG)
+		ft_tsort(ls);
 	if (l_FLAG)
 	{
 		perm_maker(ls);
+		ft_output_l(ls);
 	}
 	else if (one_FLAG)
 	{

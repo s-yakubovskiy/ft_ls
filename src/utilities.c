@@ -69,9 +69,6 @@ void	swap_ls_item(t_ls_item *a, t_ls_item *b)
     *b = c;
 }
 
-
-
-
 void print_all_cont(t_ls *ls)
 {
 	int i;
