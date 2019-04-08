@@ -101,9 +101,7 @@ void		print_ls_list(t_ls *ls_list);
 t_ls_item	*create_ls_item(int flag);
 t_ls		*create_ls_main(void);
 void		free_ls_item(t_ls_item	*ls);
-void		sorting_start(t_ls *ls);
-void		swap_ls(t_ls_item *a, t_ls_item *b);
-int 		permission_filler(char *path);
+void		swap_ls_item(t_ls_item *a, t_ls_item *b);
 void		print_all_cont(t_ls *ls);
 int			time_getter(t_ls_item *ls);
 int			perm_maker(t_ls *ls);
@@ -112,6 +110,11 @@ int			perm_maker(t_ls *ls);
 ** 		VALIDATE_FUNCS
 */
 
+int	    arg_checker(int argc, char **argv);
+char	*Ft_Get_Str_Options(int argc, char **argv);
+int	    Check_On_Consist(char *str, char c);
+int     ft_check_open_file(char *tmp);
+int     ft_check_open_dir(char *tmp);
 
 
 /*
@@ -120,6 +123,9 @@ int			perm_maker(t_ls *ls);
 
 void	print_ls_one_flag(t_ls *ls);
 void	grab_ls(t_ls *ls, int i);
+void	ft_print_dir_file(t_ls_item **ls, int a, int len);
+int     ft_print_anti_l(t_ls *ls);
+void    body_ls(t_ls *ls);
 
 
 
@@ -127,27 +133,33 @@ void	grab_ls(t_ls *ls, int i);
 ** 		ALGORITHM_FUNCS
 */
 char			extended_param(char *filename);
-void			f_strcpy(char *dst, const char *src);
 int 			uid_guid_getter(t_ls_item *ls);
 long long int	total(t_ls_item *ls);
+void            bubble_sort_ls(t_ls_item *ls);
+
 /*
 ** 		AUX FUNCS
 */
 
 int     get_terminal_width(void);
 int     cont_len(t_ls_item *ls);
-
-
+int     Ft_Bitwise_Shift(int flag, int a);
+int     Ft_Get_Bit(int argc, char **argv);
+void	path_cpy(char *dst, const char *src, t_ls *ls);
+void	f_strcpy(char *dst, const char *src);
 
 
 /*
-** 		SPLITS_CHECK_FUNCS
+** 		UTILITIES FUNCS
 */
 
 void	display_contents(t_ls_item *ls);
+int     perm_getter(t_ls_item *ls);
+int     ft_find_max_len(t_ls_item **ls);
 
 #endif
 
 /*
  * L is >> 0
  */
+

@@ -35,3 +35,33 @@
 //	return 0;
 //}
 
+//static void	ft_print_dir_file(t_ls_item **ls, int a, int len)
+//{
+//    int i;
+//    int j;
+//    int m;
+//    int br;
+//    int ws;
+//    int col;
+//
+//    i = 0;
+//    br = 0;
+//    ws = get_terminal_width();
+//    ws = 80;
+//    col = ws / a;
+//
+////	printf("\nbreaker %d len: %d ws: %d a: %d\n ", br, len, ws, a);
+//    while (ls[i])
+//    {
+//        m = a - (int)ft_strlen(ls[i]->name);
+//        printf("%s", ls[i]->name);
+//        if (ls[i + 1] != NULL)
+//        {
+//            j = -1;
+//            while (++j < m)
+//                printf("%c", ' ');
+//        }
+//        i++;
+//    }
+//    printf("\n");
+//}
