@@ -24,7 +24,10 @@
 # include <sys/xattr.h> //@+
 # include <sys/acl.h> //@+
 # include <time.h>
+# include <sys/ioctl.h>
 
+//# include <stdio.h>
+//# include <unistd.h>
 /*
 ** 		MACROS
 */
@@ -116,6 +119,7 @@ int			perm_maker(t_ls *ls);
 */
 
 void	print_ls_one_flag(t_ls *ls);
+void	grab_ls(t_ls *ls, int i);
 
 
 
@@ -130,8 +134,8 @@ long long int	total(t_ls_item *ls);
 ** 		AUX FUNCS
 */
 
-
-
+int     get_terminal_width(void);
+int     cont_len(t_ls_item *ls);
 
 
 
@@ -140,7 +144,7 @@ long long int	total(t_ls_item *ls);
 ** 		SPLITS_CHECK_FUNCS
 */
 
-void	display_contents(char * name);
+void	display_contents(t_ls_item *ls);
 
 #endif
 

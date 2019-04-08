@@ -42,7 +42,7 @@ int is_dir(char *path)
 	if (path == NULL)
 		return (-1);
 	struct stat fileStat;
-	if (stat(path,&fileStat) < 0)
+	if (lstat(path,&fileStat) < 0)
 		return (-1);
 	return ((S_ISDIR(fileStat.st_mode)) ? 1 : 0);
 }
@@ -182,7 +182,7 @@ int		time_getter(t_ls_item *ls)
 	struct stat sb;
 	struct tm tmfile, tmnow;
 
-	if (stat(ls->path, &sb) == -1)
+	if (lstat(ls->path, &sb) == -1)
 	{  /* validate stat of file */
 		perror("stat");
 		return 1;
@@ -203,7 +203,8 @@ int		time_getter(t_ls_item *ls)
 	{ /* if year is not current, output time/year */
 		strftime (time_str, sizeof (time_str), "%b %e  %Y",
 				  &tmfile);
-		f_strcpy_time(ls->time, time_str);
+		f_strcpy_time(ls, time_str);
+//		f_strcpy_time(ls->time, time_str);
 		/*printf ("permission 1 user group 12345 %s %s\n",
 				time_str, ls->path);*/
 	}
@@ -214,7 +215,7 @@ int uid_guid_getter(t_ls_item *ls)
 {
 	struct stat sb;
 
-	if (stat(ls->path, &sb) == -1)
+	if (lstat(ls->path, &sb) == -1)
 	{  /* validate stat of file */
 		perror("stat");
 		return 1;
@@ -239,4 +240,24 @@ long long int total(t_ls_item *ls)
 	}
 	a = (long long)sb.st_blocks;
 	return (a);
+}
+
+int     get_terminal_width(void)
+{
+	struct winsize w;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+//	printf ("\nlines %d\n", w.ws_row);
+//    printf ("columns %d\n", w.ws_col);
+    return (w.ws_col);  // make sure your main returns int
+}
+
+int     cont_len(t_ls_item *ls)
+{
+    int i;
+
+    i = 0;
+    while (ls->cont[i])
+        i++;
+
+    return (i);
 }

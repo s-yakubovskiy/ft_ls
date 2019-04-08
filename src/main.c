@@ -134,11 +134,15 @@ static int	Ft_Get_Bit(int argc, char **argv)
 void	f_strcpy(char *dst, const char *src)
 {
 	int		i;
+	int     j;
 
 	i = -1;
+	j = 0;
+	while(dst[j] != '\0')
+	    j++;
 	while (src[++i])
-		dst[i] = src[i];
-	dst[i] = '\0';
+		dst[j++] = src[i];
+	dst[j] = '\0';
 }
 
 static void	path_cpy(char *dst, const char *src, t_ls *ls)
@@ -153,7 +157,7 @@ static void	path_cpy(char *dst, const char *src, t_ls *ls)
 	while (src[++i])
 		dst[j++] = src[i];
 	dst[j] = '\0';
-	if (is_dir(dst))
+	if (is_dir(dst) && dst[j - 1] != '/')
 	{
 		dst[j] = '/';
 		dst[j + 1] = '\0';
@@ -165,7 +169,7 @@ static void	path_cpy(char *dst, const char *src, t_ls *ls)
 
 //static void	full_pathname(char *dst, char)
 
-void	print_ls(t_ls *ls, int i)
+void	grab_ls(t_ls *ls, int i)
 {
 	int j;
 	DIR				*d;
@@ -237,6 +241,19 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 	tmp = malloc(sizeof(char) * 256);
 //	ls->dir[ls->num_dir] = create_ls_item(1);
 //	ls->file[ls->num_file] = create_ls_item(0);
+    if (argc == 1)
+    {
+        f_strcpy(tmp, ".");
+        if (ft_check_open_dir(tmp) == 1)
+        {
+            ls->dir[(ls->num_dir)] = create_ls_item(1);
+            f_strcpy(ls->dir[ls->num_dir]->name, tmp);
+            path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
+            //ls->dir[++(ls->num_dir)] = create_ls_item(1);
+            ++(ls->num_dir);
+        }
+        return ;
+    }
 	while (i < argc)
 	{
 		if (argv[i][0] == '-')
@@ -247,6 +264,20 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 			while(ISSPACE(argv[i][j]))
 				j++;
 			k = 0;
+			if (argv[i][j] == '\0')
+            {
+                f_strcpy(tmp, ".");
+                if (ft_check_open_dir(tmp) == 1)
+                {
+                    ls->dir[(ls->num_dir)] = create_ls_item(1);
+                    f_strcpy(ls->dir[ls->num_dir]->name, tmp);
+                    path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
+                    //ls->dir[++(ls->num_dir)] = create_ls_item(1);
+                    ++(ls->num_dir);
+                }
+                return ;
+            }
+
 			while (argv[i][j] != '\0' && argv[i][j] != ' ')
 			{
 				tmp[k] = argv[i][j];
@@ -291,7 +322,7 @@ void	get_contents(t_ls *ls)
 	{
 		while (ls->dir[i] != NULL)
 		{
-			print_ls(ls , i);
+            grab_ls(ls, i);
 			i++;
 		}
 	}
@@ -327,30 +358,41 @@ static void body_ls(t_ls *ls)
 	}
 }
 
-static	int perm_getter(char *path, char *perms)
+static	int perm_getter(t_ls_item *ls)
 {
 	struct stat fileStat;
+    char link_read[255];
+    ssize_t bytes_read;
 
-
-	if (stat(path, &fileStat) < 0)
+	if (lstat(ls->path, &fileStat) < 0)
 		return (1);
 
-	perms[0] = (char)((S_ISDIR(fileStat.st_mode)) ? 'd' : '-');
-	perms[1] = (char)((fileStat.st_mode & S_IRUSR) ? 'r' : '-');
-	perms[2] = (char)((fileStat.st_mode & S_IWUSR) ? 'w' : '-');
-	perms[3] = (char)((fileStat.st_mode & S_IXUSR) ? 'x' : '-');
-	perms[4] = (char)((fileStat.st_mode & S_IRGRP) ? 'r' : '-');
-	perms[5] = (char)((fileStat.st_mode & S_IWGRP) ? 'w' : '-');
-	perms[6] = (char)((fileStat.st_mode & S_IXGRP) ? 'x' : '-');
-	perms[7] = (char)((fileStat.st_mode & S_IROTH) ? 'r' : '-');
-	perms[8] = (char)((fileStat.st_mode & S_IWOTH) ? 'w' : '-');
-	perms[9] = (char)((fileStat.st_mode & S_ISVTX) ? 't' : '-');
-	if (perms[9] == '-')
-		perms[9] = (char)((fileStat.st_mode & S_IXOTH) ? 'x' : '-');
-	perms[10] = extended_param(path);
-	if (perms[10] != '@' && perms[10] != '+')
-		perms[10] = '\0';
-	perms[11] = '\0';
+	ls->perms[0] = (char)((S_ISDIR(fileStat.st_mode)) ? 'd' : '-');
+	ls->perms[1] = (char)((fileStat.st_mode & S_IRUSR) ? 'r' : '-');
+	ls->perms[2] = (char)((fileStat.st_mode & S_IWUSR) ? 'w' : '-');
+	ls->perms[3] = (char)((fileStat.st_mode & S_IXUSR) ? 'x' : '-');
+	ls->perms[4] = (char)((fileStat.st_mode & S_IRGRP) ? 'r' : '-');
+	ls->perms[5] = (char)((fileStat.st_mode & S_IWGRP) ? 'w' : '-');
+	ls->perms[6] = (char)((fileStat.st_mode & S_IXGRP) ? 'x' : '-');
+	ls->perms[7] = (char)((fileStat.st_mode & S_IROTH) ? 'r' : '-');
+	ls->perms[8] = (char)((fileStat.st_mode & S_IWOTH) ? 'w' : '-');
+	ls->perms[9] = (char)((fileStat.st_mode & S_ISVTX) ? 't' : '-');
+	if (ls->perms[9] == '-')
+		ls->perms[9] = (char)((fileStat.st_mode & S_IXOTH) ? 'x' : '-');
+	ls->perms[10] = extended_param(ls->path);
+	if (ls->perms[10] != '@' && ls->perms[10] != '+')
+		ls->perms[10] = '\0';
+	ls->perms[11] = '\0';
+    if(S_ISLNK(fileStat.st_mode))
+    {
+//		printf("%s ",ls->path );
+        bytes_read = readlink(ls->path, link_read, 254);
+        link_read[bytes_read] = '\0';
+        f_strcpy(ls->name, " -> ");
+        f_strcpy(ls->name, link_read);
+//		printf("-> %s\n", link_read);
+    }
+//	display_contents(ls);
 	return (0);
 }
 
@@ -362,12 +404,12 @@ int	perm_maker(t_ls *ls)
 
 
 	i = 0;
-	while(ls->dir[i + 1] != NULL)
+	while(ls->dir[i] != NULL)
 	{
 		ls->dir[i]->st_blocks = 0;
 		if (lstat(ls->dir[i]->path, &fileStat) < 0)
 			return (1);
-		perm_getter(ls->dir[i]->path, ls->dir[i]->perms);
+		perm_getter(ls->dir[i]);
 		ls->dir[i]->links = fileStat.st_nlink;
 		ls->dir[i]->file_size = fileStat.st_size;
 		j = 0;
@@ -375,7 +417,7 @@ int	perm_maker(t_ls *ls)
 		{
 			if (lstat(ls->dir[i]->cont[j]->path, &fileStat) < 0)
 				return (1);
-			perm_getter(ls->dir[i]->cont[j]->path, ls->dir[i]->cont[j]->perms);
+			perm_getter(ls->dir[i]->cont[j]);
 			ls->dir[i]->cont[j]->links = fileStat.st_nlink;
 			ls->dir[i]->cont[j]->file_size = fileStat.st_size;
 			time_getter(ls->dir[i]->cont[j]);
@@ -392,7 +434,7 @@ int	perm_maker(t_ls *ls)
 		ls->file[i]->st_blocks = 0;
 		if (lstat(ls->file[i]->path, &fileStat) < 0)
 			return (1);
-		perm_getter(ls->file[i]->path, ls->file[i]->perms);
+		perm_getter(ls->file[i]);
 		ls->file[i]->links = fileStat.st_nlink;
 		ls->file[i]->file_size = fileStat.st_size;
 		time_getter(ls->file[i]);
@@ -419,13 +461,24 @@ static int ft_find_max_len(t_ls_item **ls)
 	return (a);
 }
 
-static void	ft_print_dir_file(t_ls_item **ls, int a)
+static void	ft_print_dir_file(t_ls_item **ls, int a, int len)
 {
 	int i;
 	int j;
 	int m;
+	int br;
+	int ws;
 
 	i = 0;
+	br = 0;
+	ws = get_terminal_width();
+	if (a * len > ws)
+    {
+	    len % 2 != 0 ? len += 1 : len;
+	    br = len / 2;
+//	    printf("\nbr %d ws: %d \n", br, ws);
+    }
+//	printf("\nbreaker %d len: %d ws: %d a: %d\n ", br, len, ws, a);
 	while (ls[i])
 	{
 		m = a - (int)ft_strlen(ls[i]->name);
@@ -437,22 +490,29 @@ static void	ft_print_dir_file(t_ls_item **ls, int a)
 				printf("%c", ' ');
 		}
 		i++;
+		if (br != 0 && ws != 0 && i % br == 0)
+		    printf("\n");
 	}
+    printf("\n");
 }
 
 static int ft_print_anti_l(t_ls	*ls)
 {
 	int a;
 	int j;
+	int len;
 
 	j = 0;
 	while (ls->dir[j])
 	{
-		a = (ft_find_max_len(ls->dir[j]->cont) / 8 + 1) * 8;
-		ft_print_dir_file(ls->dir[j]->cont, a);
+        len = cont_len(ls->dir[j]);
+	    a = (ft_find_max_len(ls->dir[j]->cont) / 8 + 1) * 8;
+		ft_print_dir_file(ls->dir[j]->cont, a, len);
 		j++;
 	}
+	return (0);
 }
+
 int		main(int argc, char **argv)
 {
 	t_ls		*ls;
@@ -477,8 +537,13 @@ int		main(int argc, char **argv)
 	}
 	else
 	{
-		ft_find_max_len(ls->dir);
+//		ft_find_max_len(ls->dir);
+        ft_print_anti_l(ls);
+//        printf ("cont len: %d\n", cont_len(ls->dir[0]));
 	}
+	get_terminal_width();
+
+
 //	printf("%s\n", ls->dir[0]->cont[0]->name);
 //	printf("%s\n", ls->dir[0]->cont[1]->name);
 //	printf("%s\n", ls->dir[0]->cont[15]->name);
@@ -486,18 +551,9 @@ int		main(int argc, char **argv)
 //	printf("%s\n", ls->dir[0]->cont[17]->name);
 //	printf("%s\n", ls->dir[0]->cont[18]->name);
 //	printf("%s\n", ls->dir[0]->cont[19]->name);
-	display_contents("/sbin/umount");
-	ft_print_anti_l(ls);
-}
-
-
-
-
-void sorting_start(t_ls *ls)
-{
-//	print_cont(ls);
-	printf("%s %s\n", ls->dir[0]->cont[2]->name, ls->dir[0]->cont[3]->name);
-	swap_ls(ls->dir[0]->cont[2], ls->dir[0]->cont[3]);
-	printf("%s %s\n", ls->dir[0]->cont[2]->name, ls->dir[0]->cont[3]->name);
+//	display_contents("/sbin/mount_ftp");
 
 }
+
+
+
