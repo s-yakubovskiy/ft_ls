@@ -14,6 +14,8 @@ void	print_ls_one_flag(t_ls *ls)
 	{
 		j = 0;
 		bubble_sort_ls(ls->dir[i]);
+        if (r_FLAG)
+            reverse_ls_output(ls->dir[j]);
 		while (ls->dir[i]->cont[j] != NULL)
 		{
 			ft_putendl(ls->dir[i]->cont[j]->name);
@@ -89,7 +91,6 @@ void	ft_print_dir_file(t_ls_item **ls, int a, int len)
         row++;
     x = 0;
     j = 1;
-
 //	printf("\nbreaker %d len: %d ws: %d a: %d column: %d row: %d\n ", br, len, ws, a, col, row);
     print_plus_sp(ls, i, a);
     while (j <= row)
@@ -129,6 +130,8 @@ int     ft_print_anti_l(t_ls *ls)
         len = cont_len(ls->dir[j]);
         a = (ft_find_max_len(ls->dir[j]->cont) / 8 + 1) * 8;
         bubble_sort_ls(ls->dir[j]);
+        if (r_FLAG)
+            reverse_ls_output(ls->dir[j]);
         ft_print_dir_file(ls->dir[j]->cont, a, len);
         j++;
     }
@@ -261,9 +264,11 @@ void ft_output_l(t_ls *ls)
 		ft_printf("total %lli\n", ls->dir[i]->st_blocks);
 		ft_max_len_attributes(ls->dir[i], mas);
 		j = 0;
+        if (r_FLAG)
+            reverse_ls_output(ls->dir[i]);
 		while (ls->dir[i]->cont[j])
 		{
-			ft_output_field_struct(ls->dir[i]->cont[j], mas);
+		    ft_output_field_struct(ls->dir[i]->cont[j], mas);
 			j++;
 		}
 		i++;

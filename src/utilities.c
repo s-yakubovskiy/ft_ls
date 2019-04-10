@@ -190,7 +190,7 @@ int uid_guid_getter(t_ls_item *ls)
 	/* https://stackoverflow.com/questions/36069748/c-get-owner-and-group-of-file-directory */
 }
 
-long long int total(t_ls_item *ls)
+long int total(t_ls_item *ls)
 {
 	struct stat sb;
 	long long int a;
@@ -200,7 +200,7 @@ long long int total(t_ls_item *ls)
 		perror("stat");
 		return (1);
 	}
-	a = (long long)sb.st_blocks;
+	a = (long)sb.st_blocks;
 	return (a);
 }
 

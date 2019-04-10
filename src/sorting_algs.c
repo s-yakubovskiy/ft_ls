@@ -93,7 +93,7 @@ static void bubble_sort_ls_file(t_ls *ls)
     {
         if (ft_strcmp(ls->file[i]->name, ls->file[i + 1]->name) > 0)
         {
-            swap_ls_item(ls->file[i]->name, ls->file[i + 1]->name);
+            swap_ls_item(ls->file[i], ls->file[i + 1]); //something wrong here
             sw += 1;
         }
         i++;
@@ -118,6 +118,20 @@ void ft_sort_by_ascii(t_ls *ls)
     }
 }
 
+void reverse_ls_output(t_ls_item *ls)
+{
+    int len;
+    int i;
+
+    len = cont_len(ls);
+    i = 0;
+    while (i <= len)
+    {
+        swap_ls_item(ls->cont[i++], ls->cont[--len]);
+        if (i >= len)
+            break ;
+    }
+}
 
 //void    bubble_sort_ls(t_ls_item *ls)
 //{

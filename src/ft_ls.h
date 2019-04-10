@@ -92,7 +92,7 @@ typedef struct			s_ls_item
 
 
 /*
-** 		NODE FUNCTIONS
+** 		STRUCTURES FUNCS
 */
 
 t_ls		*create_ls_dir(void);
@@ -131,14 +131,15 @@ void	ft_output_l(t_ls *ls);
 
 
 /*
-** 		ALGORITHM_FUNCS
+** 		SORTING_FUNCS
 */
 char			extended_param(char *filename);
 int 			uid_guid_getter(t_ls_item *ls);
-long long int	total(t_ls_item *ls);
+long int	    total(t_ls_item *ls);
 void            bubble_sort_ls(t_ls_item *ls);
 void			ft_tsort(t_ls	*ls);
 void			ft_sort_by_ascii(t_ls *ls);
+void            reverse_ls_output(t_ls_item *ls);
 
 /*
 ** 		AUX FUNCS
