@@ -14,7 +14,7 @@
 
 void	grab_ls(t_ls *ls, int i)
 {
-	int j;
+	int             j;
 	DIR				*d;
 	struct dirent	*dir;
 	j = 0;
@@ -47,16 +47,21 @@ void	grab_ls(t_ls *ls, int i)
 	//free_item_ls     надо последний елемент
 }
 
-static void no_args(t_ls *ls)
+static void no_args(t_ls *ls, int argc)
 {
-    int i;
-
-    if (ls->dir[0] == NULL && ls->file[0] == NULL)
+    if (argc == 1)
     {
-            ls->dir[(ls->num_dir)] = create_ls_item(1);
-            f_strcpy(ls->dir[ls->num_dir]->name, ".");
-            path_cpy(ls->dir[ls->num_dir]->path, ".", ls);
-            ++(ls->num_dir);
+        ls->dir[(ls->num_dir)] = create_ls_item(1);
+        f_strcpy(ls->dir[ls->num_dir]->name, ".");
+        path_cpy(ls->dir[ls->num_dir]->path, ".", ls);
+        ++(ls->num_dir);
+    }
+    else if (ls->dir[0] == NULL && ls->file[0] == NULL)
+    {
+         ls->dir[(ls->num_dir)] = create_ls_item(1);
+         f_strcpy(ls->dir[ls->num_dir]->name, ".");
+         path_cpy(ls->dir[ls->num_dir]->path, ".", ls);
+         ++(ls->num_dir);
     }
 }
 
@@ -69,18 +74,6 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 
 	i = 1;
 	tmp = malloc(sizeof(char) * 256);
-    if (argc == 1)
-    {
-        f_strcpy(tmp, ".");
-        if (ft_check_open_dir(tmp) == 1)
-        {
-            ls->dir[(ls->num_dir)] = create_ls_item(1);
-            f_strcpy(ls->dir[ls->num_dir]->name, tmp);
-            path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
-            ++(ls->num_dir);
-        }
-        return ;
-    }
 	while (i < argc)
 	{
 		if (argv[i][0] == '-')
@@ -134,154 +127,25 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 			i++;
 		}
 	}
-	no_args(ls);
-}
-
-void	get_contents(t_ls *ls)
-{
-	int i;
-
-	i = 0;
-	if (ls->dir[0] != NULL)
-	{
-		while (ls->dir[i] != NULL)
-		{
-            grab_ls(ls, i);
-			i++;
-		}
-	}
-}
-
-int	perm_maker(t_ls *ls)
-{
-	int i;
-	int j;
-	struct stat fileStat;
-
-	i = 0;
-	while(ls->dir[i] != NULL)
-	{
-		ls->dir[i]->st_blocks = 0;
-		if (lstat(ls->dir[i]->path, &fileStat) < 0)
-			return (1);
-		perm_getter(ls->dir[i]);
-		ls->dir[i]->links = fileStat.st_nlink;
-		ls->dir[i]->file_size = fileStat.st_size;
-		j = 0;
-		while (ls->dir[i]->cont[j] != NULL)
-		{
-			if (lstat(ls->dir[i]->cont[j]->path, &fileStat) < 0)
-				return (1);
-			perm_getter(ls->dir[i]->cont[j]);
-			ls->dir[i]->cont[j]->links = fileStat.st_nlink;
-			ls->dir[i]->cont[j]->file_size = fileStat.st_size;
-			time_getter(ls->dir[i]->cont[j]);
-			uid_guid_getter(ls->dir[i]->cont[j]);
-			if (is_dir(ls->dir[i]->cont[j]->path) == 0)
-				ls->dir[i]->st_blocks += total(ls->dir[i]->cont[j]);
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while(ls->file[i] != NULL)
-	{
-		ls->file[i]->st_blocks = 0;
-		if (lstat(ls->file[i]->path, &fileStat) < 0)
-			return (1);
-		perm_getter(ls->file[i]);
-		ls->file[i]->links = fileStat.st_nlink;
-		ls->file[i]->file_size = fileStat.st_size;
-		time_getter(ls->file[i]);
-		uid_guid_getter(ls->file[i]);
-		ls->file[i]->st_blocks = total(ls->file[i]);
-		i++;
-	}
-	return (0);
-}
-
-static void  ls_recoursive(char *path, int flag)
-{
-    t_ls	*ls;
-    int     i;
-
-    i = 0;
-    ls = create_ls_main();
-    ls->flag = flag;
-    ls->dir[(ls->num_dir)] = create_ls_item(1);
-    f_strcpy(ls->dir[ls->num_dir]->name, path);
-    path_cpy(ls->dir[ls->num_dir]->path, path, ls);
-    ++(ls->num_dir);
-    	get_contents(ls);
-    printf("%s:\n", ls->dir[0]->name);
-    if (ls->dir[0]->cont[0] == NULL)
-    {
-        printf("\n");
-        return ;
-    }
-    if (t_FLAG)
-        ft_tsort(ls);
-    if (l_FLAG)
-    {
-        perm_maker(ls);
-        ft_output_l(ls);
-    }
-    else if (one_FLAG)
-    {
-        print_ls_one_flag(ls);
-    }
-    else
-    {
-        ft_print_anti_l(ls);
-    }
-    printf("\n");
-    while (ls->dir[0]->cont[i] != NULL)
-    {
-        if (is_dir(ls->dir[0]->cont[i]->path) == 1)
-        {
-//            path_new = ft_strjoin(ls->dir[0]->path, ls->dir[0]->cont[i]->path);
-//            printf("Path is: %s\n", path_new);
-            ls_recoursive(ls->dir[0]->cont[i]->path, flag);
-        }
-        i++;
-    }
-
+	no_args(ls, argc);
 }
 
 int		main(int argc, char **argv)
 {
-	t_ls		*ls;
-	int         i;
+	t_ls    *ls;
+	int     i;
 
 	i = 0;
 	if (arg_checker(argc, argv) == -1)
 	{
-			ft_putendl("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] "
-					   "[file ...]\n");
-			return (0);
+		ft_putendl("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] "
+             "[file ...]\n");
+		return (0);
 	}
 	ls = create_ls_main();
 	ls->flag = Ft_Get_Bit(argc, argv);
 	get_arguments(argc, argv, ls);
 	get_contents(ls);
-
-
-//	if (t_FLAG)
-//		ft_tsort(ls);
-//	if (l_FLAG)
-//	{
-//		perm_maker(ls);
-//		ft_output_l(ls);
-//	}
-//	else if (one_FLAG)
-//	{
-//		print_ls_one_flag(ls);
-//	}
-//	else
-//	{
-//        ft_print_anti_l(ls);
-//	}
-//	printf("\n");
 	if (R_FLAG)
     {
         while (ls->dir[i] != NULL)
@@ -291,25 +155,5 @@ int		main(int argc, char **argv)
         }
     }
 	else
-    {
-	    if (t_FLAG)
-		    ft_tsort(ls);
-        if (l_FLAG)
-        {
-            perm_maker(ls);
-            ft_output_l(ls);
-        }
-        else if (one_FLAG)
-        {
-            print_ls_one_flag(ls);
-        }
-        else
-        {
-            ft_print_anti_l(ls);
-        }
-//        printf("\n");
-    }
+        ls_base(ls);
 }
-
-
-

@@ -96,9 +96,6 @@ char	*Ft_Get_Str_Options(int argc, char **argv)
 
 int ft_check_open_dir(char *tmp)
 {
-//	DIR				*d;
-//	struct dirent	*dir;
-
     if (opendir(tmp) == NULL)
     {
         printf("%s: %s: No such file or directory\n", tmp, tmp);

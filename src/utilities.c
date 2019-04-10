@@ -12,31 +12,6 @@
 
 #include "ft_ls.h"
 
-t_ls_item	*create_ls_item(int flag)
-{
-	t_ls_item	*tmp;
-
-	tmp = malloc(sizeof(t_ls_item));
-	tmp->cont = NULL;
-	flag == 1 ? tmp->cont = malloc(sizeof(t_ls_item*) * 1024) : 0;
-	tmp->next = NULL;
-	return (tmp);
-}
-
-t_ls	*create_ls_main(void)
-{
-	t_ls	*tmp;
-
-	tmp = malloc(sizeof(t_ls));
-	tmp->num_dir = 0;
-	tmp->num_file = 0;
-	tmp->flag = 0;
-	tmp->dir = malloc(sizeof(t_ls_item*) * 1024);
-	tmp->file = malloc(sizeof(t_ls_item*) * 1024);
-	return (tmp);
-}
-
-
 int is_dir(char *path)
 {
 	if (path == NULL)
@@ -45,19 +20,6 @@ int is_dir(char *path)
 	if (lstat(path,&fileStat) < 0)
 		return (-1);
 	return ((S_ISDIR(fileStat.st_mode)) ? 1 : 0);
-}
-
-void free_ls_item(t_ls_item	*ls)
-{
-	int i;
-
-	i = 0;
-	if (ls->cont != NULL)
-	{
-		while (ls->cont[i])
-			free(ls->cont[i++]);
-	}
-	free(ls->cont);
 }
 
 void	swap_ls_item(t_ls_item *a, t_ls_item *b)
@@ -187,7 +149,6 @@ int uid_guid_getter(t_ls_item *ls)
 	f_strcpy(ls->uid, pw->pw_name);
 	f_strcpy(ls->guid, gr->gr_name);
 	return (0);
-	/* https://stackoverflow.com/questions/36069748/c-get-owner-and-group-of-file-directory */
 }
 
 long int total(t_ls_item *ls)
@@ -208,18 +169,5 @@ int     get_terminal_width(void)
 {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-//	printf ("\nlines %d\n", w.ws_row);
-//    printf ("columns %d\n", w.ws_col);
-    return (w.ws_col);  // make sure your main returns int
-}
-
-int     cont_len(t_ls_item *ls)
-{
-    int i;
-
-    i = 0;
-    while (ls->cont[i])
-        i++;
-
-    return (i);
+    return (w.ws_col);
 }

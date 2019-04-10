@@ -65,73 +65,14 @@ void ft_tsort(t_ls	*ls)
 {
     int i;
 
-    //	i = 0;
-    //	while (ls->dir[i])
-    //		sort_bubble(ls->dir[i++]);
     if (t_FLAG)
     {
         i = 0;
         while (ls->dir[i])
             ft_sorting_by_time(ls->dir[i++]);
     }
-    //	if (r_FLAG)
-    //	{
-    //		i = 0;
-    //		while (ls->dir[i])
-    //			ft_revers(ls->dir[i++]);
-    //	}
 }
 
-static void bubble_sort_ls_file(t_ls *ls)
-{
-    int sw;
-    int i;
-
-    sw = 0;
-    i = 0;
-    while (ls->file[i + 1] != NULL)
-    {
-        if (ft_strcmp(ls->file[i]->name, ls->file[i + 1]->name) > 0)
-        {
-            swap_ls_item(ls->file[i], ls->file[i + 1]); //something wrong here
-            sw += 1;
-        }
-        i++;
-        if (ls->file[i + 1] == NULL && sw != 0)
-        {
-            i = 0;
-            sw = 0;
-        }
-    }
-}
-
-void ft_sort_by_ascii(t_ls *ls)
-{
-    int i;
-
-    bubble_sort_ls_file(ls);
-    i = 0;
-    while (ls->dir[i])
-    {
-        bubble_sort_ls(ls->dir[i]);
-        i++;
-    }
-}
-
-void reverse_ls_output(t_ls_item *ls)
-{
-    int len;
-    int i;
-
-    len = cont_len(ls);
-    i = 0;
-    while (i <= len)
-    {
-        swap_ls_item(ls->cont[i++], ls->cont[--len]);
-        if (i >= len)
-            break ;
-    }
-}
 
 //void    bubble_sort_ls(t_ls_item *ls)
 //{

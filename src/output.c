@@ -274,3 +274,46 @@ void ft_output_l(t_ls *ls)
 		i++;
 	}
 }
+
+
+void     ls_base(t_ls *ls)
+{
+    if (t_FLAG)
+        ft_tsort(ls);
+    if (l_FLAG)
+    {
+        perm_maker(ls);
+        ft_output_l(ls);
+    }
+    else if (one_FLAG)
+        print_ls_one_flag(ls);
+    else
+        ft_print_anti_l(ls);
+}
+
+void  ls_recoursive(char *path, int flag)
+{
+    t_ls	        *ls;
+    int             i;
+    static int      fl = 0;
+
+    i = 0;
+    ls = create_ls_main();
+    ls->flag = flag;
+    ls->dir[(ls->num_dir)] = create_ls_item(1);
+    f_strcpy(ls->dir[ls->num_dir]->name, path);
+    path_cpy(ls->dir[ls->num_dir]->path, path, ls);
+    ++(ls->num_dir);
+    get_contents(ls);
+    ls->dir[0]->name[ft_strlen(ls->dir[0]->name) - 1] = '\0';
+    fl != 0 ? printf("\n%s:\n", ls->dir[0]->name) : fl++;
+    if (ls->dir[0]->cont[0] == NULL)
+        return ;
+    ls_base(ls);
+    while (ls->dir[0]->cont[i] != NULL)
+    {
+        if (is_dir(ls->dir[0]->cont[i]->path) == 1)
+            ls_recoursive(ls->dir[0]->cont[i]->path, flag);
+        i++;
+    }
+}

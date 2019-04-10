@@ -4,6 +4,18 @@
 
 #include "ft_ls.h"
 
+static int  perm_getter_ext
+(t_ls_item *ls, struct stat fileStat, char *link_read, ssize_t bytes_read)
+{
+    if(S_ISLNK(fileStat.st_mode))
+    {
+        bytes_read = readlink(ls->path, link_read, 254);
+        link_read[bytes_read] = '\0';
+        f_strcpy(ls->name, " -> ");
+        f_strcpy(ls->name, link_read);
+    }
+    return (0);
+}
 
 int perm_getter(t_ls_item *ls)
 {
@@ -30,17 +42,7 @@ int perm_getter(t_ls_item *ls)
     if (ls->perms[10] != '@' && ls->perms[10] != '+')
         ls->perms[10] = '\0';
     ls->perms[11] = '\0';
-    if(S_ISLNK(fileStat.st_mode))
-    {
-//		printf("%s ",ls->path );
-        bytes_read = readlink(ls->path, link_read, 254);
-        link_read[bytes_read] = '\0';
-        f_strcpy(ls->name, " -> ");
-        f_strcpy(ls->name, link_read);
-//		printf("-> %s\n", link_read);
-    }
-//	display_contents(ls);
-    return (0);
+    return (perm_getter_ext(ls, fileStat, link_read, bytes_read));
 }
 
 int ft_find_max_len(t_ls_item **ls)
@@ -57,4 +59,30 @@ int ft_find_max_len(t_ls_item **ls)
         i++;
     }
     return (a);
+}
+
+void	get_contents(t_ls *ls)
+{
+    int i;
+
+    i = 0;
+    if (ls->dir[0] != NULL)
+    {
+        while (ls->dir[i] != NULL)
+        {
+            grab_ls(ls, i);
+            i++;
+        }
+    }
+}
+
+int     cont_len(t_ls_item *ls)
+{
+    int i;
+
+    i = 0;
+    while (ls->cont[i])
+        i++;
+
+    return (i);
 }

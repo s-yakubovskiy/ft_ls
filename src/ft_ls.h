@@ -127,6 +127,8 @@ void	ft_print_dir_file(t_ls_item **ls, int a, int len);
 int     ft_print_anti_l(t_ls *ls);
 void    body_ls(t_ls *ls);
 void	ft_output_l(t_ls *ls);
+void    ls_recoursive(char *path, int flag);
+void    ls_base(t_ls *ls);
 
 
 
@@ -160,6 +162,7 @@ void	f_strcpy(char *dst, const char *src);
 void	display_contents(t_ls_item *ls);
 int     perm_getter(t_ls_item *ls);
 int     ft_find_max_len(t_ls_item **ls);
+void	get_contents(t_ls *ls);
 
 #endif
 
