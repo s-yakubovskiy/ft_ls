@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Users/jcartwri/Desktop/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = /Volumes/Storage/goinfre/yharwyn-/CLion.app/Contents/bin/cmake/mac/bin/cmake
 
 # The command to remove a file.
-RM = /Users/jcartwri/Desktop/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
+RM = /Volumes/Storage/goinfre/yharwyn-/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/jcartwri/21/ft_ls
+CMAKE_SOURCE_DIR = /Users/yharwyn-/edu/ft_ls
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/jcartwri/21/ft_ls/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/yharwyn-/edu/ft_ls/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/jcartwri/21/ft_ls/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Users/jcartwri/Desktop/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/Volumes/Storage/goinfre/yharwyn-/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/Users/jcartwri/Desktop/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/Volumes/Storage/goinfre/yharwyn-/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jcartwri/21/ft_ls/cmake-build-debug/CMakeFiles /Users/jcartwri/21/ft_ls/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/yharwyn-/edu/ft_ls/cmake-build-debug/CMakeFiles /Users/yharwyn-/edu/ft_ls/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/jcartwri/21/ft_ls/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/yharwyn-/edu/ft_ls/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -2823,6 +2823,60 @@ lib/printf/zero_cases_xop.c.s:
 	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/lib/printf/zero_cases_xop.c.s
 .PHONY : lib/printf/zero_cases_xop.c.s
 
+src/aux.o: src/aux.c.o
+
+.PHONY : src/aux.o
+
+# target to build an object file
+src/aux.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/aux.c.o
+.PHONY : src/aux.c.o
+
+src/aux.i: src/aux.c.i
+
+.PHONY : src/aux.i
+
+# target to preprocess a source file
+src/aux.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/aux.c.i
+.PHONY : src/aux.c.i
+
+src/aux.s: src/aux.c.s
+
+.PHONY : src/aux.s
+
+# target to generate assembly for a file
+src/aux.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/aux.c.s
+.PHONY : src/aux.c.s
+
+src/free.o: src/free.c.o
+
+.PHONY : src/free.o
+
+# target to build an object file
+src/free.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/free.c.o
+.PHONY : src/free.c.o
+
+src/free.i: src/free.c.i
+
+.PHONY : src/free.i
+
+# target to preprocess a source file
+src/free.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/free.c.i
+.PHONY : src/free.c.i
+
+src/free.s: src/free.c.s
+
+.PHONY : src/free.s
+
+# target to generate assembly for a file
+src/free.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/free.c.s
+.PHONY : src/free.c.s
+
 src/main.o: src/main.c.o
 
 .PHONY : src/main.o
@@ -2849,6 +2903,87 @@ src/main.s: src/main.c.s
 src/main.c.s:
 	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/main.c.s
 .PHONY : src/main.c.s
+
+src/output.o: src/output.c.o
+
+.PHONY : src/output.o
+
+# target to build an object file
+src/output.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/output.c.o
+.PHONY : src/output.c.o
+
+src/output.i: src/output.c.i
+
+.PHONY : src/output.i
+
+# target to preprocess a source file
+src/output.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/output.c.i
+.PHONY : src/output.c.i
+
+src/output.s: src/output.c.s
+
+.PHONY : src/output.s
+
+# target to generate assembly for a file
+src/output.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/output.c.s
+.PHONY : src/output.c.s
+
+src/sorting_algs.o: src/sorting_algs.c.o
+
+.PHONY : src/sorting_algs.o
+
+# target to build an object file
+src/sorting_algs.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/sorting_algs.c.o
+.PHONY : src/sorting_algs.c.o
+
+src/sorting_algs.i: src/sorting_algs.c.i
+
+.PHONY : src/sorting_algs.i
+
+# target to preprocess a source file
+src/sorting_algs.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/sorting_algs.c.i
+.PHONY : src/sorting_algs.c.i
+
+src/sorting_algs.s: src/sorting_algs.c.s
+
+.PHONY : src/sorting_algs.s
+
+# target to generate assembly for a file
+src/sorting_algs.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/sorting_algs.c.s
+.PHONY : src/sorting_algs.c.s
+
+src/sorting_algs2.o: src/sorting_algs2.c.o
+
+.PHONY : src/sorting_algs2.o
+
+# target to build an object file
+src/sorting_algs2.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/sorting_algs2.c.o
+.PHONY : src/sorting_algs2.c.o
+
+src/sorting_algs2.i: src/sorting_algs2.c.i
+
+.PHONY : src/sorting_algs2.i
+
+# target to preprocess a source file
+src/sorting_algs2.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/sorting_algs2.c.i
+.PHONY : src/sorting_algs2.c.i
+
+src/sorting_algs2.s: src/sorting_algs2.c.s
+
+.PHONY : src/sorting_algs2.s
+
+# target to generate assembly for a file
+src/sorting_algs2.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/sorting_algs2.c.s
+.PHONY : src/sorting_algs2.c.s
 
 src/tmp.o: src/tmp.c.o
 
@@ -2903,6 +3038,87 @@ src/utilities.s: src/utilities.c.s
 src/utilities.c.s:
 	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/utilities.c.s
 .PHONY : src/utilities.c.s
+
+src/utilities2.o: src/utilities2.c.o
+
+.PHONY : src/utilities2.o
+
+# target to build an object file
+src/utilities2.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/utilities2.c.o
+.PHONY : src/utilities2.c.o
+
+src/utilities2.i: src/utilities2.c.i
+
+.PHONY : src/utilities2.i
+
+# target to preprocess a source file
+src/utilities2.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/utilities2.c.i
+.PHONY : src/utilities2.c.i
+
+src/utilities2.s: src/utilities2.c.s
+
+.PHONY : src/utilities2.s
+
+# target to generate assembly for a file
+src/utilities2.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/utilities2.c.s
+.PHONY : src/utilities2.c.s
+
+src/utilities3.o: src/utilities3.c.o
+
+.PHONY : src/utilities3.o
+
+# target to build an object file
+src/utilities3.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/utilities3.c.o
+.PHONY : src/utilities3.c.o
+
+src/utilities3.i: src/utilities3.c.i
+
+.PHONY : src/utilities3.i
+
+# target to preprocess a source file
+src/utilities3.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/utilities3.c.i
+.PHONY : src/utilities3.c.i
+
+src/utilities3.s: src/utilities3.c.s
+
+.PHONY : src/utilities3.s
+
+# target to generate assembly for a file
+src/utilities3.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/utilities3.c.s
+.PHONY : src/utilities3.c.s
+
+src/validation.o: src/validation.c.o
+
+.PHONY : src/validation.o
+
+# target to build an object file
+src/validation.c.o:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/validation.c.o
+.PHONY : src/validation.c.o
+
+src/validation.i: src/validation.c.i
+
+.PHONY : src/validation.i
+
+# target to preprocess a source file
+src/validation.c.i:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/validation.c.i
+.PHONY : src/validation.c.i
+
+src/validation.s: src/validation.c.s
+
+.PHONY : src/validation.s
+
+# target to generate assembly for a file
+src/validation.c.s:
+	$(MAKE) -f CMakeFiles/ft_ls.dir/build.make CMakeFiles/ft_ls.dir/src/validation.c.s
+.PHONY : src/validation.c.s
 
 # Help Target
 help:
@@ -3213,15 +3429,39 @@ help:
 	@echo "... lib/printf/zero_cases_xop.o"
 	@echo "... lib/printf/zero_cases_xop.i"
 	@echo "... lib/printf/zero_cases_xop.s"
+	@echo "... src/aux.o"
+	@echo "... src/aux.i"
+	@echo "... src/aux.s"
+	@echo "... src/free.o"
+	@echo "... src/free.i"
+	@echo "... src/free.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/output.o"
+	@echo "... src/output.i"
+	@echo "... src/output.s"
+	@echo "... src/sorting_algs.o"
+	@echo "... src/sorting_algs.i"
+	@echo "... src/sorting_algs.s"
+	@echo "... src/sorting_algs2.o"
+	@echo "... src/sorting_algs2.i"
+	@echo "... src/sorting_algs2.s"
 	@echo "... src/tmp.o"
 	@echo "... src/tmp.i"
 	@echo "... src/tmp.s"
 	@echo "... src/utilities.o"
 	@echo "... src/utilities.i"
 	@echo "... src/utilities.s"
+	@echo "... src/utilities2.o"
+	@echo "... src/utilities2.i"
+	@echo "... src/utilities2.s"
+	@echo "... src/utilities3.o"
+	@echo "... src/utilities3.i"
+	@echo "... src/utilities3.s"
+	@echo "... src/validation.o"
+	@echo "... src/validation.i"
+	@echo "... src/validation.s"
 .PHONY : help
 
 

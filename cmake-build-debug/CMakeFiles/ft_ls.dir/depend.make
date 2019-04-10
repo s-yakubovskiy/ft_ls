@@ -412,11 +412,41 @@ CMakeFiles/ft_ls.dir/lib/printf/zero_cases_xop.c.o: ../lib/printf/libft/get_next
 CMakeFiles/ft_ls.dir/lib/printf/zero_cases_xop.c.o: ../lib/printf/libft/libft.h
 CMakeFiles/ft_ls.dir/lib/printf/zero_cases_xop.c.o: ../lib/printf/zero_cases_xop.c
 
+CMakeFiles/ft_ls.dir/src/aux.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/aux.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/aux.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/aux.c.o: ../src/aux.c
+CMakeFiles/ft_ls.dir/src/aux.c.o: ../src/ft_ls.h
+
+CMakeFiles/ft_ls.dir/src/free.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/free.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/free.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/free.c.o: ../src/free.c
+CMakeFiles/ft_ls.dir/src/free.c.o: ../src/ft_ls.h
+
 CMakeFiles/ft_ls.dir/src/main.c.o: ../lib/printf/ft_printf.h
 CMakeFiles/ft_ls.dir/src/main.c.o: ../lib/printf/libft/get_next_line.h
 CMakeFiles/ft_ls.dir/src/main.c.o: ../lib/printf/libft/libft.h
 CMakeFiles/ft_ls.dir/src/main.c.o: ../src/ft_ls.h
 CMakeFiles/ft_ls.dir/src/main.c.o: ../src/main.c
+
+CMakeFiles/ft_ls.dir/src/output.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/output.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/output.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/output.c.o: ../src/ft_ls.h
+CMakeFiles/ft_ls.dir/src/output.c.o: ../src/output.c
+
+CMakeFiles/ft_ls.dir/src/sorting_algs.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/sorting_algs.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/sorting_algs.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/sorting_algs.c.o: ../src/ft_ls.h
+CMakeFiles/ft_ls.dir/src/sorting_algs.c.o: ../src/sorting_algs.c
+
+CMakeFiles/ft_ls.dir/src/sorting_algs2.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/sorting_algs2.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/sorting_algs2.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/sorting_algs2.c.o: ../src/ft_ls.h
+CMakeFiles/ft_ls.dir/src/sorting_algs2.c.o: ../src/sorting_algs2.c
 
 CMakeFiles/ft_ls.dir/src/tmp.c.o: ../src/tmp.c
 
@@ -425,4 +455,22 @@ CMakeFiles/ft_ls.dir/src/utilities.c.o: ../lib/printf/libft/get_next_line.h
 CMakeFiles/ft_ls.dir/src/utilities.c.o: ../lib/printf/libft/libft.h
 CMakeFiles/ft_ls.dir/src/utilities.c.o: ../src/ft_ls.h
 CMakeFiles/ft_ls.dir/src/utilities.c.o: ../src/utilities.c
+
+CMakeFiles/ft_ls.dir/src/utilities2.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/utilities2.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/utilities2.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/utilities2.c.o: ../src/ft_ls.h
+CMakeFiles/ft_ls.dir/src/utilities2.c.o: ../src/utilities2.c
+
+CMakeFiles/ft_ls.dir/src/utilities3.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/utilities3.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/utilities3.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/utilities3.c.o: ../src/ft_ls.h
+CMakeFiles/ft_ls.dir/src/utilities3.c.o: ../src/utilities3.c
+
+CMakeFiles/ft_ls.dir/src/validation.c.o: ../lib/printf/ft_printf.h
+CMakeFiles/ft_ls.dir/src/validation.c.o: ../lib/printf/libft/get_next_line.h
+CMakeFiles/ft_ls.dir/src/validation.c.o: ../lib/printf/libft/libft.h
+CMakeFiles/ft_ls.dir/src/validation.c.o: ../src/ft_ls.h
+CMakeFiles/ft_ls.dir/src/validation.c.o: ../src/validation.c
 

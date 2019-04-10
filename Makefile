@@ -31,7 +31,7 @@ HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 #	которые задает второй аргумент.
 
 SRC_DIR = ./src/
-SRC_LST = utilities.c utilities2.c tmp.c output.c sorting_algs.c aux.c validation.c
+SRC_LST = utilities.c utilities2.c tmp.c output.c sorting_algs.c aux.c validation.c free.c utilities3.c sorting_algs2.c
 
 SRC_FT_LS = main.c
 
