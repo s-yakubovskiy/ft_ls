@@ -33,31 +33,6 @@ void	print_ls_one_flag(t_ls *ls)
 	}
 }
 
-
-
-void    display_contents(t_ls_item *ls)
-{
-	struct stat fileStat;
-	char link_read[255];
-	ssize_t bytes_read;
-
-    if (lstat(ls->path, &fileStat) == -1)
-    {  /* validate stat of file */
-//        perror("stat");
-        return ;
-    }
-//	lstat(ls->path, &fileStat);
-	if(S_ISLNK(fileStat.st_mode))
-	{
-//		printf("%s ",ls->path );
-		bytes_read = readlink(ls->path, link_read, 254);
-		link_read[bytes_read] = '\0';
-		f_strcpy(ls->path, " -> ");
-		f_strcpy(ls->path, link_read);
-//		printf("-> %s\n", link_read);
-	}
-}
-
 static void print_plus_sp(t_ls_item **ls, int i, int a)
 {
     int m;
@@ -136,36 +111,6 @@ int     ft_print_anti_l(t_ls *ls)
         j++;
     }
     return (0);
-}
-
-void    body_ls(t_ls *ls)
-{
-    int i;
-    int j;
-
-    i = 0;
-    if (ls->file[0] != 0)
-    {
-        while (ls->file[i] != 0)
-        {
-            printf("%s\n", ls->file[i++]->name);
-        }
-    }
-    if (ls->dir[0] != 0)
-    {
-        i = 0;
-        while(ls->dir[i])
-        {
-            j = 0;
-            while (ls->dir[i]->cont[j])
-            {
-                printf("%-16s", ls->dir[i]->cont[j]->name);
-                j++;
-            }
-            i++;
-        }
-
-    }
 }
 
 static void ft_max_len_attributes(t_ls_item *ls, int *mas)
@@ -308,7 +253,10 @@ void  ls_recoursive(char *path, int flag)
     ls->dir[0]->name[ft_strlen(ls->dir[0]->name) - 1] = '\0';
     fl != 0 ? printf("\n%s:\n", ls->dir[0]->name) : fl++;
     if (ls->dir[0]->cont[0] == NULL)
+    {
+        ft_free_ls(&ls);
         return ;
+    }
     ls_base(ls);
     while (ls->dir[0]->cont[i] != NULL)
     {
@@ -316,4 +264,5 @@ void  ls_recoursive(char *path, int flag)
             ls_recoursive(ls->dir[0]->cont[i]->path, flag);
         i++;
     }
+    ft_free_ls(&ls);
 }

@@ -26,20 +26,17 @@
 # include <time.h>
 # include <sys/ioctl.h>
 
-//# include <stdio.h>
-//# include <unistd.h>
 /*
 ** 		MACROS
 */
 
-# define l_FLAG ((ls->flag >> 0) & 1)
-# define R_FLAG ((ls->flag >> 1) & 1)
-# define a_FLAG ((ls->flag >> 2) & 1)
-# define r_FLAG ((ls->flag >> 3) & 1)
-# define t_FLAG ((ls->flag >> 4) & 1)
-# define one_FLAG ((ls->flag >> 5) & 1)
+# define l_FLAG ((ls->flag >> 0u) & 1u)
+# define R_FLAG ((ls->flag >> 1u) & 1u)
+# define a_FLAG ((ls->flag >> 2u) & 1u)
+# define r_FLAG ((ls->flag >> 3u) & 1u)
+# define t_FLAG ((ls->flag >> 4u) & 1u)
+# define one_FLAG ((ls->flag >> 5u) & 1u)
 # define MAXC 64
-
 
 
 # define ISNUM(x) (x >= '0' && x <= '9')
@@ -64,10 +61,10 @@
 
 typedef struct			s_ls
 {
-	int					flag;
+	unsigned int		flag;
 	int 				num_dir;
 	int 				num_file;
-	char				path[256];
+	char				path[1024];
 	struct s_ls_item	**dir;
 	struct s_ls_item	**file;
 }						t_ls;
@@ -77,8 +74,8 @@ typedef struct			s_ls_item
 	char				time[6];
 	char				day[6];
 	char 				month[6];
-	char				name[256];
-	char				path[2048];
+	char				name[1024];
+	char				path[4096];
 	char				perms[16];
 	char 				uid[64];
 	char 				guid[64];
@@ -89,80 +86,71 @@ typedef struct			s_ls_item
 	struct s_ls_item	**cont;
 }						t_ls_item;
 
-
-
 /*
 ** 		STRUCTURES FUNCS
 */
 
-t_ls		*create_ls_dir(void);
-int			is_dir(char *path);
-void		print_ls_list(t_ls *ls_list);
-t_ls_item	*create_ls_item(int flag);
-t_ls		*create_ls_main(void);
-void		free_ls_item(t_ls_item	*ls);
-void		swap_ls_item(t_ls_item *a, t_ls_item *b);
-void		print_all_cont(t_ls *ls);
-int			time_getter(t_ls_item *ls);
-int			perm_maker(t_ls *ls);
+int			            is_dir(char *path);
+t_ls_item	            *create_ls_item(int flag);
+t_ls		            *create_ls_main(void);
+void		            free_ls_item(t_ls_item	*ls);
+void                    ft_free_ls(t_ls **ls);
+void		            swap_ls_item(t_ls_item *a, t_ls_item *b);
+int			            time_getter(t_ls_item *ls);
+int			            perm_maker(t_ls *ls);
 
 /*
 ** 		VALIDATE_FUNCS
 */
 
-int	    arg_checker(int argc, char **argv);
-char	*Ft_Get_Str_Options(int argc, char **argv);
-int	    Check_On_Consist(char *str, char c);
-int     ft_check_open_file(char *tmp);
-int     ft_check_open_dir(char *tmp);
-
+int	                    arg_checker(int argc, char **argv);
+char	                *Ft_Get_Str_Options(int argc, char **argv);
+int	                    Check_On_Consist(char *str, char c);
+int                     ft_check_open_file(char *tmp);
+int                     ft_check_open_dir(char *tmp);
 
 /*
 ** 		OUTPUT_FUNCS
 */
 
-void	print_ls_one_flag(t_ls *ls);
-void	grab_ls(t_ls *ls, int i);
-void	ft_print_dir_file(t_ls_item **ls, int a, int len);
-int     ft_print_anti_l(t_ls *ls);
-void    body_ls(t_ls *ls);
-void	ft_output_l(t_ls *ls);
-void    ls_recoursive(char *path, int flag);
-void    ls_base(t_ls *ls);
-
-
+void	                print_ls_one_flag(t_ls *ls);
+void	                grab_ls(t_ls *ls, int i);
+void	                ft_print_dir_file(t_ls_item **ls, int a, int len);
+int                     ft_print_anti_l(t_ls *ls);
+void	                ft_output_l(t_ls *ls);
+void                    ls_recoursive(char *path, int flag);
+void                    ls_base(t_ls *ls);
 
 /*
 ** 		SORTING_FUNCS
 */
-char			extended_param(char *filename);
-int 			uid_guid_getter(t_ls_item *ls);
-long int	    total(t_ls_item *ls);
-void            bubble_sort_ls(t_ls_item *ls);
-void			ft_tsort(t_ls	*ls);
-void			ft_sort_by_ascii(t_ls *ls);
-void            reverse_ls_output(t_ls_item *ls);
+
+char			        extended_param(char *filename);
+int 			        uid_guid_getter(t_ls_item *ls);
+long int	            total(t_ls_item *ls);
+void                    bubble_sort_ls(t_ls_item *ls);
+void			        ft_tsort(t_ls	*ls);
+void			        ft_sort_by_ascii(t_ls *ls);
+void                    reverse_ls_output(t_ls_item *ls);
 
 /*
 ** 		AUX FUNCS
 */
 
-int     get_terminal_width(void);
-int     cont_len(t_ls_item *ls);
-int     Ft_Bitwise_Shift(int flag, int a);
-int     Ft_Get_Bit(int argc, char **argv);
-void	path_cpy(char *dst, const char *src, t_ls *ls);
-void	f_strcpy(char *dst, const char *src);
-
+int                     get_terminal_width(void);
+int                     cont_len(t_ls_item *ls);
+int                     Ft_Bitwise_Shift(unsigned int flag, unsigned int a);
+int                     Ft_Get_Bit(int argc, char **argv);
+void	                path_cpy(char *dst, const char *src, t_ls *ls);
+void	                f_strcpy(char *dst, const char *src);
 
 /*
 ** 		UTILITIES FUNCS
 */
 
-void	display_contents(t_ls_item *ls);
-int     perm_getter(t_ls_item *ls);
-int     ft_find_max_len(t_ls_item **ls);
-void	get_contents(t_ls *ls);
+int                     perm_getter(t_ls_item *ls);
+int                     ft_find_max_len(t_ls_item **ls);
+void	                get_contents(t_ls *ls);
 
 #endif
 

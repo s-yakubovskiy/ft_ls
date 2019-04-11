@@ -31,24 +31,6 @@ void	swap_ls_item(t_ls_item *a, t_ls_item *b)
     *b = c;
 }
 
-void print_all_cont(t_ls *ls)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (ls->dir[i] != NULL)
-	{
-		j = 0;
-		while (ls->dir[i]->cont[j] != NULL)
-		{
-			printf("%s\n", ls->dir[i]->cont[j]->name);
-			j++;
-		}
-		i++;
-	}
-}
-
 char	extended_param(char *filename)
 {
 	acl_t acl = NULL;

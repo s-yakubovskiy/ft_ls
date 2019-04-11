@@ -69,9 +69,9 @@ t_ls_item	*create_ls_item(int flag)
 {
     t_ls_item	*tmp;
 
-    tmp = malloc(sizeof(t_ls_item));
+    tmp = ft_memalloc(sizeof(t_ls_item));
     tmp->cont = NULL;
-    flag == 1 ? tmp->cont = malloc(sizeof(t_ls_item*) * 1024) : 0;
+    flag == 1 ? tmp->cont = ft_memalloc(sizeof(t_ls_item*) * 16384) : 0;
     tmp->next = NULL;
     return (tmp);
 }
@@ -80,11 +80,11 @@ t_ls	*create_ls_main(void)
 {
     t_ls	*tmp;
 
-    tmp = malloc(sizeof(t_ls));
+    tmp = ft_memalloc(sizeof(t_ls));
     tmp->num_dir = 0;
     tmp->num_file = 0;
     tmp->flag = 0;
-    tmp->dir = malloc(sizeof(t_ls_item*) * 1024);
-    tmp->file = malloc(sizeof(t_ls_item*) * 1024);
+    tmp->dir = ft_memalloc(sizeof(t_ls_item*) * 16384);
+    tmp->file = ft_memalloc(sizeof(t_ls_item*) * 16384);
     return (tmp);
 }

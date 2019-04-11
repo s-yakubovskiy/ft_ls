@@ -4,7 +4,7 @@
 
 #include "ft_ls.h"
 
-int	Ft_Bitwise_Shift(int flag, int a)
+int	Ft_Bitwise_Shift(unsigned int flag, unsigned int a)
 {
     flag = flag >> a;
     flag = flag + 1;
@@ -31,6 +31,7 @@ int	Ft_Get_Bit(int argc, char **argv)
         flag = Ft_Bitwise_Shift(flag, 1);
     if (Check_On_Consist(str, 'l') == 1)
         flag = Ft_Bitwise_Shift(flag, 0);
+    ft_memdel((void **)&str);
     return (flag);
 }
 

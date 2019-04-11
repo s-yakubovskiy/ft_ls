@@ -74,7 +74,7 @@ char	*Ft_Get_Str_Options(int argc, char **argv)
 
     i = 1;
     a = ft_get_count_flags(argc, argv);
-    str = (char *)malloc(sizeof(char) * a);
+    str = ft_memalloc(sizeof(char) * a);
     str[a] = '\0';
     while (i < argc && argv[i][0] == '-')
     {
@@ -96,11 +96,15 @@ char	*Ft_Get_Str_Options(int argc, char **argv)
 
 int ft_check_open_dir(char *tmp)
 {
-    if (opendir(tmp) == NULL)
+    DIR *n;
+
+    if ((n = opendir(tmp)) == NULL)
     {
         printf("%s: %s: No such file or directory\n", tmp, tmp);
+        closedir(n);
         return (-1);
     }
+    closedir(n);
     return (1);
 }
 

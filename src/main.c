@@ -43,8 +43,6 @@ void	grab_ls(t_ls *ls, int i)
 		}
 		closedir(d);
 	}
-	ls->dir[i]->cont[j] = 0;
-	//free_item_ls     надо последний елемент
 }
 
 static void no_args(t_ls *ls, int argc)
@@ -70,10 +68,11 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 	int i;
 	int j;
 	int k;
-	char *tmp;
+//	char *tmp;
+	char tmp[256];
 
 	i = 1;
-	tmp = malloc(sizeof(char) * 256);
+//	tmp = ft_memalloc(sizeof(char) * 256);
 	while (i < argc)
 	{
 		if (argv[i][0] == '-')
@@ -94,6 +93,7 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
                     path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
                     ++(ls->num_dir);
                 }
+//                ft_strdel(&tmp);
                 return ;
             }
 			while (argv[i][j] != '\0' && argv[i][j] != ' ')
@@ -127,6 +127,7 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 			i++;
 		}
 	}
+//	ft_strdel(&tmp);
 	no_args(ls, argc);
 }
 
@@ -156,4 +157,5 @@ int		main(int argc, char **argv)
     }
 	else
         ls_base(ls);
+	ft_free_ls(&ls);
 }
