@@ -100,7 +100,7 @@ int ft_check_open_dir(char *tmp)
 
     if ((n = opendir(tmp)) == NULL)
     {
-        printf("%s: %s: No such file or directory\n", tmp, tmp);
+        printf("ls: %s: No such file or directory\n", tmp);
         closedir(n);
         return (-1);
     }
@@ -112,7 +112,7 @@ int ft_check_open_file(char *tmp)
 {
     if (fopen(tmp, "r") == NULL)
     {
-        printf("%s: %s: No such file or directory\n", tmp, tmp);
+        printf("ls: %s: No such file or directory\n", tmp);
         return (-1);
     }
     return (1);

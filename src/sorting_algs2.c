@@ -27,18 +27,18 @@ static void bubble_sort_ls_file(t_ls *ls)
     }
 }
 
-void ft_sort_by_ascii(t_ls *ls)
-{
-    int i;
-
-    bubble_sort_ls_file(ls);
-    i = 0;
-    while (ls->dir[i])
-    {
-        bubble_sort_ls(ls->dir[i]);
-        i++;
-    }
-}
+//void ft_sort_by_ascii(t_ls *ls)
+//{
+//    int i;
+//
+//    bubble_sort_ls_file(ls);
+//    i = 0;
+//    while (ls->dir[i])
+//    {
+//        bubble_sort_ls(ls->dir[i]);
+//        i++;
+//    }
+//}
 
 void reverse_ls_output(t_ls_item *ls)
 {

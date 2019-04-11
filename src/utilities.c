@@ -94,25 +94,20 @@ int		time_getter(t_ls_item *ls)
 		return 1;
 	}
 
-	localtime_r (&sb.st_mtime, &tmfile);    /* get struct tm for file */
-	localtime_r (&now, &tmnow);             /* and now */
+	localtime_r (&sb.st_mtime, &tmfile);
+	localtime_r (&now, &tmnow);
 
 	if (tmfile.tm_year == tmnow.tm_year)
-	{    /* compare year values  */
+	{
 		strftime (time_str, sizeof (time_str), "%b %e %H:%M",
-				  &tmfile);   /* if year is current output date/time  */
+				  &tmfile);
 		f_strcpy_time(ls, time_str);
-		/*printf ("permission 1 user group 12345 %s %s\n",
-				time_str, ls->path);*/
 	}
 	else
-	{ /* if year is not current, output time/year */
+	{
 		strftime (time_str, sizeof (time_str), "%b %e  %Y",
 				  &tmfile);
 		f_strcpy_time(ls, time_str);
-//		f_strcpy_time(ls->time, time_str);
-		/*printf ("permission 1 user group 12345 %s %s\n",
-				time_str, ls->path);*/
 	}
 	return (0);
 }

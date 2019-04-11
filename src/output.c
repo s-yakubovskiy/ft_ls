@@ -27,7 +27,6 @@ void	print_ls_one_flag(t_ls *ls)
 	bubble_sort_ls(ls->file[i]);
 	while (ls->file[i] != NULL)
 	{
-//        bubble_sort_ls(ls->file[i]);
 	    ft_putendl(ls->file[i]->name);
 		i++;
 	}
@@ -48,13 +47,45 @@ static void print_plus_sp(t_ls_item **ls, int i, int a)
     }
 }
 
+static void ft_body_print(t_ls_item **ls, int a, int len, int row)
+{
+	int x;
+	int j;
+	int i;
+
+	x = 0;
+	j = 1;
+	i = 0;
+	while (j <= row)
+	{
+		if (x == row)
+		{
+			print_plus_sp(ls, i, a);
+			x = 0;
+		}
+		else
+		{
+			i++;
+			x++;
+		}
+		if (i == len)
+		{
+			printf("\n");
+			i = 0;
+			i += j;
+			j++;
+			if (j <= row)
+				print_plus_sp(ls, i, a);
+			x = 0;
+		}
+	}
+}
+
 void	ft_print_dir_file(t_ls_item **ls, int a, int len)
 {
     int i;
-    int j;
     int ws;
     int col;
-    int x;
     int row;
 
     i = 0;
@@ -64,33 +95,8 @@ void	ft_print_dir_file(t_ls_item **ls, int a, int len)
     row = len / col;
     if (row * col < len)
         row++;
-    x = 0;
-    j = 1;
-//	printf("\nbreaker %d len: %d ws: %d a: %d column: %d row: %d\n ", br, len, ws, a, col, row);
     print_plus_sp(ls, i, a);
-    while (j <= row)
-    {
-        if (x == row)
-        {
-            print_plus_sp(ls, i, a);
-            x = 0;
-        } else
-        {
-            i++;
-            x++;
-        }
-        if (i == len)
-        {
-            printf("\n");
-            i = 0;
-            i += j;
-            j++;
-            if (j <= row)
-                print_plus_sp(ls, i, a);
-            x = 0;
-        }
-    }
-//    printf("\n");
+	ft_body_print(ls, a, len, row);
 }
 
 int     ft_print_anti_l(t_ls *ls)
@@ -100,8 +106,17 @@ int     ft_print_anti_l(t_ls *ls)
     int len;
 
     j = 0;
+    if (ls->file[j])
+	{
+		a = (ft_find_max_len(ls->file) / 8 + 1) * 8;
+		ft_print_dir_file(ls->file, a, ls->num_file);
+		if (ls->dir[0] != NULL)
+			printf("\n");
+	}
+    j = 0;
     while (ls->dir[j])
     {
+    	printf("%s:\n", ls->dir[j]->name);
         len = cont_len(ls->dir[j]);
         a = (ft_find_max_len(ls->dir[j]->cont) / 8 + 1) * 8;
         bubble_sort_ls(ls->dir[j]);

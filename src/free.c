@@ -50,7 +50,7 @@ void free_ls_item(t_ls_item	*ls)
     ft_memdel((void **)&(ls->cont));
 }
 
-void ft_free_ls(t_ls **ls)
+int	ft_free_ls(t_ls **ls)
 {
 	int	i;
 
@@ -74,4 +74,5 @@ void ft_free_ls(t_ls **ls)
 	while (i < 256)
         (*ls)->path[i++] = '\0';
 	ft_memdel((void **)ls);
+	return (1);
 }

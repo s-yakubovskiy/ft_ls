@@ -17,8 +17,8 @@ void	grab_ls(t_ls *ls, int i)
 	int             j;
 	DIR				*d;
 	struct dirent	*dir;
-	j = 0;
 
+	j = 0;
 	d = opendir(ls->dir[i]->path);
 	if (d)
 	{
@@ -43,6 +43,7 @@ void	grab_ls(t_ls *ls, int i)
 		}
 		closedir(d);
 	}
+	ls->dir[i]->cont[j] = 0;
 }
 
 static void no_args(t_ls *ls, int argc)
@@ -63,16 +64,58 @@ static void no_args(t_ls *ls, int argc)
     }
 }
 
-void 	get_arguments(int argc, char *argv[], t_ls *ls)
+static int ft_check_end_argument(t_ls *ls, char *tmp)
+{
+	f_strcpy(tmp, ".");
+	if (ft_check_open_dir(tmp) == 1)
+	{
+		ls->dir[(ls->num_dir)] = create_ls_item(1);
+		f_strcpy(ls->dir[ls->num_dir]->name, tmp);
+		path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
+		++(ls->num_dir);
+	}
+	else
+		return (-1);
+	return (1);
+}
+
+static int ft_cheak_dir_or_file(t_ls *ls, char *tmp)
+{
+	if (is_dir(tmp) == 1)
+	{
+		if (ft_check_open_dir(tmp) == 1)
+		{
+			ls->dir[(ls->num_dir)] = create_ls_item(1);
+			f_strcpy(ls->dir[ls->num_dir]->name, tmp);
+			path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
+			++(ls->num_dir);
+		}
+		else
+			return (-1);
+	}
+	else
+	{
+		if (ft_check_open_file(tmp) == 1)
+		{
+			ls->file[(ls->num_file)] = create_ls_item(0);
+			f_strcpy(ls->file[ls->num_file]->name, tmp);
+			path_cpy(ls->file[ls->num_file]->path, tmp, ls);
+			++(ls->num_file);
+		}
+		else
+			return (-1);
+	}
+	return (1);
+}
+
+static int 	get_arguments(int argc, char *argv[], t_ls *ls)
 {
 	int i;
 	int j;
 	int k;
-//	char *tmp;
 	char tmp[256];
 
 	i = 1;
-//	tmp = ft_memalloc(sizeof(char) * 256);
 	while (i < argc)
 	{
 		if (argv[i][0] == '-')
@@ -84,18 +127,7 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 				j++;
 			k = 0;
 			if (argv[i][j] == '\0')
-            {
-                f_strcpy(tmp, ".");
-                if (ft_check_open_dir(tmp) == 1)
-                {
-                    ls->dir[(ls->num_dir)] = create_ls_item(1);
-                    f_strcpy(ls->dir[ls->num_dir]->name, tmp);
-                    path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
-                    ++(ls->num_dir);
-                }
-//                ft_strdel(&tmp);
-                return ;
-            }
+				return (ft_check_end_argument(ls, tmp));
 			while (argv[i][j] != '\0' && argv[i][j] != ' ')
 			{
 				tmp[k] = argv[i][j];
@@ -103,32 +135,14 @@ void 	get_arguments(int argc, char *argv[], t_ls *ls)
 				k++;
 			}
 			tmp[k] = '\0';
-			if (is_dir(tmp) == 1)
-			{
-				if (ft_check_open_dir(tmp) == 1)
-				{
-					ls->dir[(ls->num_dir)] = create_ls_item(1);
-					f_strcpy(ls->dir[ls->num_dir]->name, tmp);
-					path_cpy(ls->dir[ls->num_dir]->path, tmp, ls);
-					++(ls->num_dir);
-				}
-			}
-			else
-			{
-				if (ft_check_open_file(tmp) == 1)
-				{
-					ls->file[(ls->num_file)] = create_ls_item(0);
-					f_strcpy(ls->file[ls->num_file]->name, tmp);
-					path_cpy(ls->file[ls->num_file]->path, tmp, ls);
-					++(ls->num_file);
-				}
-			}
+			if (ft_cheak_dir_or_file(ls, tmp) == -1)
+				return (-1);
 			ft_bzero(tmp, (size_t)k);
 			i++;
 		}
 	}
-//	ft_strdel(&tmp);
 	no_args(ls, argc);
+	return (1);
 }
 
 int		main(int argc, char **argv)
@@ -136,7 +150,7 @@ int		main(int argc, char **argv)
 	t_ls    *ls;
 	int     i;
 
-	i = 0;
+	i = -1;
 	if (arg_checker(argc, argv) == -1)
 	{
 		ft_putendl("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] "
@@ -145,17 +159,16 @@ int		main(int argc, char **argv)
 	}
 	ls = create_ls_main();
 	ls->flag = Ft_Get_Bit(argc, argv);
-	get_arguments(argc, argv, ls);
+	if (get_arguments(argc, argv, ls) != 1)
+		return (ft_free_ls(&ls));
 	get_contents(ls);
+	ft_sort_by_ascii_all_dir_file(ls);
 	if (R_FLAG)
     {
-        while (ls->dir[i] != NULL)
-        {
+        while (ls->dir[++i] != NULL)
             ls_recoursive(ls->dir[i]->name, ls->flag);
-            i++;
-        }
     }
 	else
         ls_base(ls);
-	ft_free_ls(&ls);
+	return (ft_free_ls(&ls));
 }
