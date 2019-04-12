@@ -1,31 +1,31 @@
 #include "ft_ls.h"
 
-void    bubble_sort_ls(t_ls_item *ls)
+void		bubble_sort_ls(t_ls_item *ls)
 {
-    int sw;
-    int i;
+	int	sw;
+	int	i;
 
-    sw = 0;
-    i = 0;
-    if (ls == NULL)
-        return ;
-    while (ls->cont[i + 1] != NULL)
-    {
-        if (ft_strcmp(ls->cont[i]->name, ls->cont[i + 1]->name) > 0)
-        {
-            swap_ls_item(ls->cont[i], ls->cont[i + 1]);
-            sw++;
-        }
-        i++;
-        if (ls->cont[i + 1] == NULL && sw != 0)
-        {
-            sw = 0;
-            i = 0;
-        }
-    }
+	sw = 0;
+	i = 0;
+	if (ls == NULL)
+		return ;
+	while (ls->cont[i + 1] != NULL)
+	{
+		if (ft_strcmp(ls->cont[i]->name, ls->cont[i + 1]->name) > 0)
+		{
+			swap_ls_item(ls->cont[i], ls->cont[i + 1]);
+			sw++;
+		}
+		i++;
+		if (ls->cont[i + 1] == NULL && sw != 0)
+		{
+			sw = 0;
+			i = 0;
+		}
+	}
 }
 
-static void ft_body_sort_time(t_ls_item *ls)
+static void	ft_body_sort_time(t_ls_item *ls)
 {
 	struct stat s1;
 	struct stat s2;
@@ -47,38 +47,38 @@ static void ft_body_sort_time(t_ls_item *ls)
 	}
 }
 
-static void ft_sorting_by_time(t_ls_item *ls)
+static void	ft_sorting_by_time(t_ls_item *ls)
 {
-    int i;
-    int l;
+	int	i;
+	int	l;
 
-    l = 0;
-    i = 0;
-    while (ls->cont[l])
-        l++;
-    while (i < l)
-    {
-    	ft_body_sort_time(ls);
-        i++;
-    }
+	l = 0;
+	i = 0;
+	while (ls->cont[l])
+		l++;
+	while (i < l)
+	{
+		ft_body_sort_time(ls);
+		i++;
+	}
 }
 
-void ft_tsort(t_ls	*ls)
+void		ft_tsort(t_ls *ls)
 {
-    int i;
+	int	i;
 
-    if (t_FLAG)
-    {
-        i = 0;
-        while (ls->dir[i])
-            ft_sorting_by_time(ls->dir[i++]);
-    }
+	if (T_FLAG)
+	{
+		i = 0;
+		while (ls->dir[i])
+			ft_sorting_by_time(ls->dir[i++]);
+	}
 }
 
-static void ft_sort_dir_ls(t_ls *ls)
+static void	ft_sort_dir_ls(t_ls *ls)
 {
-	int i;
-	int sw;
+	int	i;
+	int	sw;
 
 	i = 0;
 	sw = 0;
@@ -98,29 +98,29 @@ static void ft_sort_dir_ls(t_ls *ls)
 	}
 }
 
-void ft_sort_by_ascii_all_dir_file(t_ls *ls)
+void		ft_sort_by_ascii_all_dir_file(t_ls *ls)
 {
-    int i;
-    int sw;
+	int i;
+	int sw;
 
-    i = 0;
-    sw = 0;
+	i = 0;
+	sw = 0;
 	ft_sort_dir_ls(ls);
-    while (ls->file[i + 1] != NULL)
-    {
-        if (ft_strcmp(ls->file[i]->name, ls->file[i + 1]->name) > 0)
-        {
-            swap_ls_item(ls->file[i], ls->file[i + 1]);
-            sw++;
-        }
-        i++;
-        if (ls->file[i + 1] == NULL && sw != 0)
-        {
-            sw = 0;
-            i = 0;
-        }
-    }
-    i = 0;
-    while (ls->dir[i])
-        bubble_sort_ls(ls->dir[i++]);
+	while (ls->file[i + 1] != NULL)
+	{
+		if (ft_strcmp(ls->file[i]->name, ls->file[i + 1]->name) > 0)
+		{
+			swap_ls_item(ls->file[i], ls->file[i + 1]);
+			sw++;
+		}
+		i++;
+		if (ls->file[i + 1] == NULL && sw != 0)
+		{
+			sw = 0;
+			i = 0;
+		}
+	}
+	i = 0;
+	while (ls->dir[i])
+		bubble_sort_ls(ls->dir[i++]);
 }
