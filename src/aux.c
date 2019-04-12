@@ -1,36 +1,32 @@
-//
-// Created by Yoshiko Harwyn hoare on 2019-04-08.
-//
-
 #include "ft_ls.h"
 
-int	Ft_Bitwise_Shift(unsigned int flag, unsigned int a)
+int     ft_bitwise_shift(unsigned int flag, unsigned int a)
 {
-    flag = flag >> a;
-    flag = flag + 1;
-    flag = flag << a;
-    return (flag);
+	flag = flag >> a;
+	flag = flag + 1;
+	flag = flag << a;
+	return (flag);
 }
 
-int	Ft_Get_Bit(int argc, char **argv)
+int     ft_get_bit(int argc, char **argv)
 {
     int		flag;
     char    *str;
 
     flag = 0;
-    str = Ft_Get_Str_Options(argc, argv);
-    if (Check_On_Consist(str, '1') == 1)
-        flag = Ft_Bitwise_Shift(flag, 5);
-    if (Check_On_Consist(str, 't') == 1)
-        flag = Ft_Bitwise_Shift(flag, 4);
-    if (Check_On_Consist(str, 'r') == 1)
-        flag = Ft_Bitwise_Shift(flag, 3);
-    if (Check_On_Consist(str, 'a') == 1)
-        flag = Ft_Bitwise_Shift(flag, 2);
-    if (Check_On_Consist(str, 'R') == 1)
-        flag = Ft_Bitwise_Shift(flag, 1);
-    if (Check_On_Consist(str, 'l') == 1)
-        flag = Ft_Bitwise_Shift(flag, 0);
+    str = ft_get_str_options(argc, argv);
+    if (check_on_consist(str, '1') == 1)
+        flag = ft_bitwise_shift(flag, 5);
+    if (check_on_consist(str, 't') == 1)
+        flag = ft_bitwise_shift(flag, 4);
+    if (check_on_consist(str, 'r') == 1)
+        flag = ft_bitwise_shift(flag, 3);
+    if (check_on_consist(str, 'a') == 1)
+        flag = ft_bitwise_shift(flag, 2);
+    if (check_on_consist(str, 'R') == 1)
+        flag = ft_bitwise_shift(flag, 1);
+    if (check_on_consist(str, 'l') == 1)
+        flag = ft_bitwise_shift(flag, 0);
     ft_memdel((void **)&str);
     return (flag);
 }

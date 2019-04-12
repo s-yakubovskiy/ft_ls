@@ -30,7 +30,7 @@ int	arg_checker(int argc, char **argv)
     return (1);
 }
 
-int	Check_On_Consist(char *str, char c)
+int	check_on_consist(char *str, char c)
 {
     int i;
 
@@ -65,7 +65,7 @@ static int ft_get_count_flags(int argc, char **argv)
     return (a);
 }
 
-char	*Ft_Get_Str_Options(int argc, char **argv)
+char	*ft_get_str_options(int argc, char **argv)
 {
     int		i;
     int		j;
@@ -82,7 +82,7 @@ char	*Ft_Get_Str_Options(int argc, char **argv)
         a = 0;
         while (argv[i][j])
         {
-            if (Check_On_Consist(str, argv[i][j]) == -1)
+            if (check_on_consist(str, argv[i][j]) == -1)
             {
                 str[a++] = argv[i][j];
                 str[a] = '\0';

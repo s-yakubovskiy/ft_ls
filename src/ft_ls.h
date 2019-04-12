@@ -109,8 +109,8 @@ int			            perm_maker(t_ls *ls);
 */
 
 int	                    arg_checker(int argc, char **argv);
-char	                *Ft_Get_Str_Options(int argc, char **argv);
-int	                    Check_On_Consist(char *str, char c);
+char	                *ft_get_str_options(int argc, char **argv);
+int	                    check_on_consist(char *str, char c);
 int                     ft_check_open_file(char *tmp);
 int                     ft_check_open_dir(char *tmp);
 
@@ -148,8 +148,8 @@ void					ft_sort_by_ascii_all_dir_file(t_ls *ls);
 
 int                     get_terminal_width(void);
 int                     cont_len(t_ls_item *ls);
-int                     Ft_Bitwise_Shift(unsigned int flag, unsigned int a);
-int                     Ft_Get_Bit(int argc, char **argv);
+int                     ft_bitwise_Shift(unsigned int flag, unsigned int a);
+int                     ft_get_bit(int argc, char **argv);
 void	                path_cpy(char *dst, const char *src, t_ls *ls);
 void	                f_strcpy(char *dst, const char *src);
 

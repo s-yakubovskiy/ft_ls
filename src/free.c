@@ -1,8 +1,7 @@
 
-
 #include "ft_ls.h"
 
-static void ft_ls_cleaner_string(t_ls_item	*ls)
+static void	ft_ls_cleaner_string(t_ls_item *ls)
 {
 	int	i;
 
@@ -31,13 +30,13 @@ static void ft_ls_cleaner_string(t_ls_item	*ls)
 	ls->next = NULL;
 }
 
-void free_ls_item(t_ls_item	*ls)
+void		free_ls_item(t_ls_item *ls)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!ls)
-	    return ;
+	if (!ls)
+		return ;
 	if (ls->cont != NULL)
 	{
 		while (ls->cont[i])
@@ -47,10 +46,10 @@ void free_ls_item(t_ls_item	*ls)
 		}
 	}
 	ft_ls_cleaner_string(ls);
-    ft_memdel((void **)&(ls->cont));
+	ft_memdel((void **)&(ls->cont));
 }
 
-int	ft_free_ls(t_ls **ls)
+int			ft_free_ls(t_ls **ls)
 {
 	int	i;
 
@@ -59,20 +58,20 @@ int	ft_free_ls(t_ls **ls)
 	{
 		free_ls_item((*ls)->dir[i]);
 		ft_memdel((void **)&((*ls)->dir[i]));
-        (*ls)->dir[i++] = NULL;
+		(*ls)->dir[i++] = NULL;
 	}
 	ft_memdel((void **)&((*ls)->dir));
 	i = 0;
 	while ((*ls)->file[i])
 	{
 		free_ls_item((*ls)->file[i]);
-        ft_memdel((void **)&((*ls)->file[i++]));
-        (*ls)->file[i] = NULL;
+		ft_memdel((void **)&((*ls)->file[i++]));
+		(*ls)->file[i] = NULL;
 	}
-    ft_memdel((void **)&((*ls)->file));
+	ft_memdel((void **)&((*ls)->file));
 	i = 0;
 	while (i < 256)
-        (*ls)->path[i++] = '\0';
+		(*ls)->path[i++] = '\0';
 	ft_memdel((void **)ls);
-	return (1);
+	return (0);
 }

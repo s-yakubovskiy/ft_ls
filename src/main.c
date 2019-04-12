@@ -158,7 +158,7 @@ int		main(int argc, char **argv)
 		return (0);
 	}
 	ls = create_ls_main();
-	ls->flag = Ft_Get_Bit(argc, argv);
+	ls->flag = ft_get_bit(argc, argv);
 	if (get_arguments(argc, argv, ls) != 1)
 		return (ft_free_ls(&ls));
 	get_contents(ls);
